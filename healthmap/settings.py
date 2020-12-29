@@ -38,10 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user',
-    'rest_framework',
-    'patients',
-    'casehistory',
-    'referral'
+    'rest_framework'
+    # 'patients.patients',
+    # 'casehistory.casehistory',
+    # 'referral.referral',
+    # 'medicalofficer.medicalofficer'
 ]
 
 MIDDLEWARE = [

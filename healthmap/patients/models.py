@@ -1,11 +1,14 @@
 from django.db import models
 from validators import validate_phone
+from datetime import date
+from dateutil.relativedelta import relativedelta
 
 
 # Base Model for Patient Information
 class Patients(models.Model):
     first_name = models.CharFiled(max_length=25)
     last_name = models.CharField(max_length=25)
+    birth_date = models.DateField()
     current_address = models.CharField(max_length=100)
     permanent_address = models.CharField(max_length=100)
     email_address = models.EmaiField()
@@ -20,6 +23,12 @@ class Patients(models.Model):
     def full_name(self):
         "Returns the person's full name."
         return '%s %s' % (self.first_name, self.last_name)
+
+    @property
+    def age(self):
+        "Returns the person's age."
+        age = relativedelta(date.today(), self.birth_date)
+        return {"year": age.years, "month": age.months, "days": age.days}
 
     def __repr__(self):
         return 'Patient Name: %s %s' % (self.first_name, self.last_name)
@@ -37,6 +46,10 @@ class StaffPersons(Patients):
     staff_id = models.AutoField(unique=True, primary_key=True)
     is_hospital_staff = models.BooleanFiled(default=False)
     staff_post = models.CharField(max_length=25)
+    emergency_contact = models.CharField(max_length=50)
+    contact_relation = models.CharField(max_length=20)
+    emergency_phone = models.CharField(max_length=15,
+                                       validators=[validate_phone])
 
     class Meta(Patients.Meta):
         pass
