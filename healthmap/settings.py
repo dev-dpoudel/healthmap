@@ -58,6 +58,8 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',  # noqa E501
     'PAGE_SIZE': 10,
+    # Enable API Documentation
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
@@ -134,6 +136,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Uper Uploaded Files
+MEDIA_ROOT = BASE_DIR / 'uploads'
 
 #  Provide Authentication Service relying on following User Models
 AUTH_USER_MODEL = 'user.User'
