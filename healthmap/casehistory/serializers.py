@@ -6,14 +6,14 @@ from rest_framework import serializers
 class CaseSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = CaseHistory
-        except_fields = ['update_date']
+        exclude = ['update_date']
 
 
 # Serializers for Diagnosis History and Related Information
 class DiagnosisSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Diagnosis
-        except_fields = ['is_investigation_req']
+        exclude = ['is_investigation_req']
 
 
 # Serializers for Investigation History and Related Information

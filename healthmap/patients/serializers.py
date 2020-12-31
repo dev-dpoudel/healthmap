@@ -6,7 +6,7 @@ from rest_framework import serializers
 class ExcludeFields:
     class Meta:
         abstract = True
-        exclude_fields = ['created_date', 'modified_date', 'entered_by']
+        exclude = ['created_date', 'modified_date', 'entered_by']
 
 
 # Serializer for Staff Personnels
