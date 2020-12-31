@@ -7,7 +7,7 @@ def file_path(table, field, type, id, name, ext):
 
 
 # Definition of File Manager
-class FileManger(models.Model):
+class Files(models.Model):
     ''' Class Modal for File manager. '''
 
     file_id = models.AutoField(primary_key=True, unique=True)

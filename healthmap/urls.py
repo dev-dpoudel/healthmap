@@ -16,14 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
+from rest_framework.documentation import include_docs_urls
 from user import views
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 
+# Settings for Interactive API documentation
+API_TITLE = 'Health Map API'
+API_DESCRIPTION = 'A web API to monitor and manage Health Related Data'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
+    path('docs/', include_docs_urls(title=API_TITLE, description=API_DESCRIPTION)), # noqa E501
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))  # noqa E501
 ]
