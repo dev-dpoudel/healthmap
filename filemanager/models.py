@@ -18,6 +18,7 @@ class Files(models.Model):
     file_name = models.CharField(max_length=50)
     file_ext = models.CharField(max_length=5)
     file = models.FileField(upload_to=file_path)
+    user = models.ForeignField('user.User')
     entered_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
 

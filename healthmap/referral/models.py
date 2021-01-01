@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 # Definition related to Referral : Departmental or Inter Hospital
@@ -13,6 +14,12 @@ class Referral(models.Model):
     # Information to be picked by : Hospital and Department
     refered_to = models.CharField(max_length=50)
     # Date of Referral Requested
-    refered_date = models.DateTimeField()
+    refered_date = models.DateTimeField(default=timezone.now)
     # Additional/ Supporting  Information
     refered_remarks = models.CharField(max_length=100)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['refered_by'], name="referby_idx"),
+            models.Index(fields=['referral_type', 'refered_from'], name="from_idx"), # noqa E501
+        ]

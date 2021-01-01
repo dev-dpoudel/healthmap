@@ -5,14 +5,22 @@ from django.db import models
 class Forums(models.Model):
     thread_id = models.AutoField(unique=True, primary_key=True)
     thread_title = models.CharFiled(max_length=1000)
-    tags = models.SlugField(max_length=50)
+    tags = models.SlugField(max_length=200)
     is_closed = models.BooleanFiled(default=False)
-    created_by = models.BooleanFiled(default=False)
+    created_by = models.ForeignKey('medicalOfficer.medicalOfficer')
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['tags'], name='tags_idx'),
+            models.Index(fields=['is_closed', 'created_by'], name="user_idx")
+            models.Index(fields=['is_closed', 'created_date'], name="created_idx")  # noqa E501
+        ]
 
 # Model for thread discussion
+
+
 class Discussion(models.Model):
     discussion_id = models.AutoField(unique=True, primary_key=True)
     thread_id = models.ForeignKey('Forums', on_delete=models.CASCADE)

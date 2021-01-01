@@ -26,8 +26,17 @@ class CaseHistory(models.Model):
     # Last updated record on
     update_date = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        indexes = [
+                models.Index(fields=['case_type'], name="type_idx"),  # noqa E501
+                models.Index(fields=['case_status', 'department'], name="status_idx"),  # noqa E501
+                models.Index(fields=['entered_date'], name="admitdate_idx"),
+                models.Index(fields=['patient_type'], name="patient_idx"),
+                ]
 
 # Definition of Case History Models
+
+
 class Diagnosis(models.Model):
     ''' Class Modal for Diagnosis History. Assuming worst case scenario,
     may have multiple medication. Each Diagnosis history is bound to
@@ -48,8 +57,15 @@ class Diagnosis(models.Model):
     # Follow up Check up Date
     followup_date = models.DateTimeField()
 
+    class Meta:
+        indexes = [
+                    models.Index(fields=['diagnose_date'], name="diagnosedt_idx"),  # noqa E501
+                    models.Index(fields=['followup_date'], name="follow_idx"),
+                    ]
 
 # Definition for Investigation and Lab Test
+
+
 class InvestigationHistory(models.Model):
     ''' Class Modal for Investigation History. Assuming worst case scenario,
     may have multiple Investiagtion Records. Each Investigation history is
@@ -58,6 +74,7 @@ class InvestigationHistory(models.Model):
     diagnosis_id = models.ForeignKey('Diagnosis')
     # Originally planned investigation appointment date
     planned_date = models.DateTimeField()
+    # Type of Investigation
     investigation_type = models.CharField(max_length=5)
     # Investigation Performed date
     investigation_date = models.DateTimeField()
@@ -68,8 +85,15 @@ class InvestigationHistory(models.Model):
     pre_remarks = models.CharField(max_length=500)
     remarks = models.CharField(max_length=500)
 
+    class Meta:
+        indexes = [
+                    models.Index(fields=['investigation_date'], name="invdt_idx"),  # noqa E501
+                    models.Index(fields=['investigation_type'], name="invty_idx"),  # noqa E501
+                        ]
 
 # Definition related to medication
+
+
 class Medication(models.Model):
     ''' Class Modal for Medication History. Hold related information in order
     to view any conflicting medication options/ help patient consume right
@@ -98,3 +122,10 @@ class Medication(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     # is patient still using or supposed to use the medicine
     is_active = models.BooleanFiled(default=True)
+
+    class Meta:
+        indexes = [
+                    models.Index(fields=['is_active'], name="active_idx"),
+                    models.Index(fields=['medicine_type'], name="type_idx"),
+                    models.Index(fields=['dose', 'dose_measure'], name="doseage_idx"),  # noqa E501
+                        ]

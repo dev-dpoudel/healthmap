@@ -20,7 +20,9 @@ class StaffPersons(Patients):
     staff_post = models.CharField(max_length=25)
 
     class Meta(Patients.Meta):
-        pass
+        indexes = [
+            models.Index(fields=['is_hospital_staff'], name="staff_idx"),
+        ]
 
 
 # Model for Staff Family
@@ -32,4 +34,6 @@ class StaffFamily(Patients):
     is_billable = models.BooleanFiled(default=False)
 
     class Meta(Patients.Meta):
-        pass
+        indexes = [
+            models.Index(fields=['is_billable'], name="billable_idx"),
+        ]

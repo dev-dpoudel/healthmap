@@ -28,3 +28,15 @@ class MedicalOfficer(models.Model):
 
         return {"year": service.years, "month": service.months,
                 "days": service.days}
+
+        class Meta:
+            indexes = [
+                models.Index(fields=['position', 'department'], name="post_idx"),  # noqa E501
+                models.Index(fields=['join_date'], name="joindate_idx")
+                ]
+
+            permissions = ['patient_case', 'patient case',
+                           'patients_diagnoisis', 'patient diagnosis',
+                           'patients_medication', 'patient medication',
+                           'patients_investigation', 'patient investigation'
+                           ]
