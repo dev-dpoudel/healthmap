@@ -7,7 +7,7 @@ from django_filters import rest_framework as filters
 
 # Filters specific to staff Records
 class MOFilters(filters.FilterSet):
-    username = filters.CharFilter(field_name="username", lookup_expr="icontiains")  # noqa E501
+    # username = filters.CharFilter(field_name="username", lookup_expr="icontiains")  # noqa E501
     fromdate = filters.DateFilter(field_name="join_date", lookup_expr="year__gte")  # noqa E501
     tilldate = filters.DateFilter(field_name="join_date", lookup_expr="year__lte")  # noqa E501
     position = filters.CharFilter(field_name="position", lookup_expr="icontiains")  # noqa E501

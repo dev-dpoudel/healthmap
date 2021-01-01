@@ -6,7 +6,7 @@ from .models import Forums, Discussion
 class ForumSerializers(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Forums
-        fields = ['url', 'file', 'file_type']
+        fields = '__all__'
 
 
 class DiscussionSerializer(serializers.HyperlinkedModelSerializer):

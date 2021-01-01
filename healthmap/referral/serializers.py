@@ -6,5 +6,4 @@ from rest_framework import serializers
 class ReferralSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Referral
-        fields = ['url', 'position', 'officer_id', 'department', 'is_active',
-                  'join_date']
+        fields = '__all__'
