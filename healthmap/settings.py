@@ -40,10 +40,12 @@ INSTALLED_APPS = [
     'user',
     'rest_framework',
     'django_filters',
-    # 'patients.patients',
-    # 'casehistory.casehistory',
-    # 'referral.referral',
-    # 'medicalofficer.medicalofficer'
+    'healthmap.patients',
+    'healthmap.casehistory',
+    'healthmap.referral',
+    'healthmap.medicalofficer',
+    'forums',
+    'filemanager',
 ]
 
 MIDDLEWARE = [

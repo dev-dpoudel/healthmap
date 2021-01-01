@@ -1,18 +1,18 @@
 from rest_framework import viewsets
 from rest_framework import permissions
 from .models import CaseHistory, Diagnosis, InvestigationHistory, Medication
-from casehistory.serializers import (CaseSerializer, DiagnosisSerializer,
-                                     InvestigationSerializer,
-                                     MedictionSerializer)
+from .serializers import (CaseSerializer, DiagnosisSerializer,
+                          InvestigationSerializer,
+                          MedictionSerializer)
 from django_filters import rest_framework as filters
 
 
 # Filters specific to Case Records
 class CaseFilters(filters.FilterSet):
-    username = filters.CharField(field_name="username", lookup_expr="icontiains")  # noqa E501
-    fromdate = filters.DateField(field_name="entered_date", lookup_expr="year__gte")  # noqa E501
-    tilldate = filters.DateField(field_name="entered_date", lookup_expr="year__lte")  # noqa E501
-    referal = filters.IntField(field_name="referral_id", lookup_expr="exact")
+    username = filters.CharFilter(field_name="username", lookup_expr="icontiains")  # noqa E501
+    fromdate = filters.DateFilter(field_name="entered_date", lookup_expr="year__gte")  # noqa E501
+    tilldate = filters.DateFilter(field_name="entered_date", lookup_expr="year__lte")  # noqa E501
+    referal = filters.NumberFilter(field_name="referral_id", lookup_expr="exact")  # noqa E501
 
     class Meta:
         model = CaseHistory
@@ -23,7 +23,7 @@ class CaseHistoryViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows Case History to be viewed or edited.
     """
-    queryset = CaseHistory.objects.all().order_by('+entered_date')
+    queryset = CaseHistory.objects.all().order_by('entered_date')
     serializer_class = CaseSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = CaseFilters
@@ -32,9 +32,9 @@ class CaseHistoryViewSet(viewsets.ModelViewSet):
 
 # Filters specific to Diagnosis
 class DiagnosisFilters(filters.FilterSet):
-    fromdate = filters.DateField(field_name="diagnose_date", lookup_expr="year__gte")  # noqa E501
-    tilldate = filters.DateField(field_name="diagnose_date", lookup_expr="year__lte")  # noqa E501
-    followdate = filters.DateField(field_name="followup_date", lookup_expr="year__eq")  # noqa E501
+    fromdate = filters.DateFilter(field_name="diagnose_date", lookup_expr="year__gte")  # noqa E501
+    tilldate = filters.DateFilter(field_name="diagnose_date", lookup_expr="year__lte")  # noqa E501
+    followdate = filters.DateFilter(field_name="followup_date", lookup_expr="year__eq")  # noqa E501
 
     class Meta:
         model = Diagnosis
@@ -54,8 +54,8 @@ class DiagnosisViewSet(viewsets.ModelViewSet):
 
 # Filters specific to Diagnosis
 class InvestigationFilters(filters.FilterSet):
-    fromdate = filters.DateField(field_name="investigation_date", lookup_expr="year__gte")  # noqa E501
-    tilldate = filters.DateField(field_name="investigation_date", lookup_expr="year__lte")  # noqa E501
+    fromdate = filters.DateFilter(field_name="investigation_date", lookup_expr="year__gte")  # noqa E501
+    tilldate = filters.DateFilter(field_name="investigation_date", lookup_expr="year__lte")  # noqa E501
 
     class Meta:
         model = InvestigationHistory
@@ -75,8 +75,8 @@ class InvestigationHistoryViewSet(viewsets.ModelViewSet):
 
 # Filters specific to Diagnosis
 class MedicationFilters(filters.FilterSet):
-    fromdate = filters.DateField(field_name="start_date", lookup_expr="year__gte")  # noqa E501
-    tilldate = filters.DateField(field_name="start_date", lookup_expr="year__lte")  # noqa E501
+    fromdate = filters.DateFilter(field_name="start_date", lookup_expr="year__gte")  # noqa E501
+    tilldate = filters.DateFilter(field_name="start_date", lookup_expr="year__lte")  # noqa E501
 
     class Meta:
         model = Medication

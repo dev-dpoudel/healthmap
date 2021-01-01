@@ -17,11 +17,23 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
-from user import views
+from user import views as userView
+from forums import views as forumView
+from filemanager import views as fileView
+from .casehistory import views as caseView
+from .medicalofficer import views as moView
+from .patients import views as staffView
+from .referral import views as referView
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
+router.register(r'users', userView.UserViewSet)
+router.register(r'groups', userView.GroupViewSet)
+router.register(r'forum', forumView.ForumViewSet)
+router.register(r'files', fileView.FilesViewSet)
+router.register(r'case', caseView.CaseHistoryViewSet)
+router.register(r'mo', moView.MOViewSet)
+router.register(r'staff', staffView.StaffPersonViewSet)
+router.register(r'refer', referView.ReferralViewSet)
 
 # Settings for Interactive API documentation
 API_TITLE = 'Health Map API'

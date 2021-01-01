@@ -3,7 +3,7 @@ from .models import Forums, Discussion
 
 
 # Class for File Serializers
-class ForumsSerializers(serializers.HyperlinkedModelSerializer):
+class ForumSerializers(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Forums
         fields = ['url', 'file', 'file_type']

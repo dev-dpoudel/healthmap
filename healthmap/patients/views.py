@@ -1,16 +1,16 @@
 from rest_framework import viewsets
 from rest_framework import permissions
 from .models import StaffPersons, StaffFamily
-from patients.serializers import StaffSerializer, FamilySerializer
+from .serializers import StaffSerializer, FamilySerializer
 from django_filters import rest_framework as filters
 
 
 # Filters specific to staff Records
 class StaffPersonFilters(filters.FilterSet):
-    username = filters.CharField(field_name="username", lookup_expr="icontiains")  # noqa E501
+    username = filters.CharFilter(field_name="username", lookup_expr="icontiains")  # noqa E501
 
     class Meta:
-        model = StaffSerializer
+        model = StaffPersons
         fields = ['is_hospital_staff']
 
 
@@ -27,10 +27,10 @@ class StaffPersonViewSet(viewsets.ModelViewSet):
 
 # Filters specific to staff family
 class StaffFamilyFilters(filters.FilterSet):
-    username = filters.CharField(field_name="username", lookup_expr="icontiains")  # noqa E501
+    username = filters.CharFilter(field_name="username", lookup_expr="icontiains")  # noqa E501
 
     class Meta:
-        model = StaffSerializer
+        model = StaffFamily
         fields = ['is_billable']
 
 

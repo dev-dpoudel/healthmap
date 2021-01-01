@@ -1,20 +1,19 @@
 from rest_framework import viewsets
 from rest_framework import permissions
 from .models import Forums, Discussion
-from user.serializers import ForumsSerializers, DiscussionSerializer
+from .serializers import ForumSerializers, DiscussionSerializer
 from django_filters import rest_framework as filters
 
 
 # Filters specific to Forum Thread Records
 class ForumFilters(filters.FilterSet):
-    username = filters.CharField(field_name="username", lookup_expr="icontiains")  # noqa E501
-    fromdate = filters.DateField(field_name="entered_date", lookup_expr="year__gte")  # noqa E501
-    tilldate = filters.DateField(field_name="entered_date", lookup_expr="year__lte")  # noqa E501
-    referal = filters.IntField(field_name="referral_id", lookup_expr="exact")
+    username = filters.CharFilter(field_name="created_by", lookup_expr="icontiains")  # noqa E501
+    fromdate = filters.DateFilter(field_name="created_date", lookup_expr="year__gte")  # noqa E501
+    tilldate = filters.DateFilter(field_name="created_date", lookup_expr="year__lte")  # noqa E501
 
     class Meta:
         model = Forums
-        fields = ['case_status', 'case_type', 'patient_type']
+        fields = ['is_closed']
 
 
 class ForumViewSet(viewsets.ModelViewSet):
@@ -22,7 +21,7 @@ class ForumViewSet(viewsets.ModelViewSet):
     API endpoint that allows Forum Thread to be viewed or edited.
     """
     queryset = Forums.objects.all().order_by('-created_date')
-    serializer_class = ForumsSerializers
+    serializer_class = ForumSerializers
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = ForumFilters
     permission_classes = [permissions.IsAuthenticated]
@@ -30,14 +29,13 @@ class ForumViewSet(viewsets.ModelViewSet):
 
 # Filters specific to Discussion Thread Records
 class DiscussionFilters(filters.FilterSet):
-    username = filters.CharField(field_name="username", lookup_expr="icontiains")  # noqa E501
-    fromdate = filters.DateField(field_name="entered_date", lookup_expr="year__gte")  # noqa E501
-    tilldate = filters.DateField(field_name="entered_date", lookup_expr="year__lte")  # noqa E501
-    referal = filters.IntField(field_name="referral_id", lookup_expr="exact")
+    username = filters.CharFilter(field_name="created_by", lookup_expr="icontiains")  # noqa E501
+    fromdate = filters.DateFilter(field_name="created_date", lookup_expr="year__gte")  # noqa E501
+    tilldate = filters.DateFilter(field_name="created_date", lookup_expr="year__lte")  # noqa E501
 
     class Meta:
-        model = Forums
-        fields = ['case_status', 'case_type', 'patient_type']
+        model = Discussion
+        fields = ['created_date']
 
 
 class DiscussionViewSet(viewsets.ModelViewSet):

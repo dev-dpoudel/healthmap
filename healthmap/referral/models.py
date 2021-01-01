@@ -8,7 +8,7 @@ class Referral(models.Model):
     # Referral Type Code
     referral_type = models.CharField(max_length=3)
     # Referring Personal Information
-    refered_by = models.ForeignKey('medicalofficer.MedicalOfficer')
+    refered_by = models.ForeignKey('medicalofficer.MedicalOfficer', on_delete=models.CASCADE) # noqa E501
     # Information of Referral Source : Hospital and Department
     refered_from = models.CharField(max_length=50)
     # Information to be picked by : Hospital and Department

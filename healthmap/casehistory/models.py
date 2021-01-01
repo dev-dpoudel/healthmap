@@ -9,18 +9,18 @@ class CaseHistory(models.Model):
     case_id = models.AutoField(primary_key=True, unique=True)
     # Case type may be Emergency | Walkin Checkup | Hospitalized Case
     case_type = models.CharField(max_length=10)
-    referral_id = models.ForeignKey('Referral', on_delete=models.CASCADE)
-    observer_id = models.ForeignKey('MedicalOfficer')
+    referral_id = models.ForeignKey('referral.Referral', on_delete=models.CASCADE) # noqa E501
+    observer_id = models.ForeignKey('medicalofficer.MedicalOfficer', on_delete=models.RESTRICT) # noqa E501
     # General observation from MO
     observation = models.CharField(max_length=500)
     # General Tags : specific to disese type i.e. Cancer etc.
     patient_type = models.CharField(max_length=10)
     # Corresponding user identity
-    patient_id = models.IntField(default=0)
+    patient_id = models.ForeignKey('user.User', on_delete=models.RESTRICT)
     # Current condition and ward information
     case_status = models.CharField(max_length=3)
     # Department currently handling the case
-    case_department = models.CharField(max_length=3)
+    department = models.CharField(max_length=3)
     # Patient admit date
     entered_date = models.DateTimeField(auto_now_add=True)
     # Last updated record on
@@ -28,7 +28,7 @@ class CaseHistory(models.Model):
 
     class Meta:
         indexes = [
-                models.Index(fields=['case_type'], name="type_idx"),  # noqa E501
+                models.Index(fields=['case_type'], name="casety_idx"),  # noqa E501
                 models.Index(fields=['case_status', 'department'], name="status_idx"),  # noqa E501
                 models.Index(fields=['entered_date'], name="admitdate_idx"),
                 models.Index(fields=['patient_type'], name="patient_idx"),
@@ -43,7 +43,7 @@ class Diagnosis(models.Model):
     Case History '''
 
     diagnosis_id = models.AutoField(unique=True, primary_key=True)
-    case_id = models.ForeignKey('CaseHistory')
+    case_id = models.ForeignKey('CaseHistory', on_delete=models.CASCADE)
     # general observation reported by MO
     observation = models.CharField(max_length=2500)
     # known symptoms from patient
@@ -51,7 +51,7 @@ class Diagnosis(models.Model):
     # allergies specific to diagnosis periods i.e. related to medicine
     allergies = models.CharField(max_length=10)
     # is lab work required i.e. blood test / Scans etc.
-    is_investigation_req = models.BooleanFiled(default=False)
+    is_investigation_req = models.BooleanField(default=False)
     # Date of the diagnosis
     diagnose_date = models.DateTimeField(auto_now_add=True)
     # Follow up Check up Date
@@ -71,16 +71,16 @@ class InvestigationHistory(models.Model):
     may have multiple Investiagtion Records. Each Investigation history is
     bound to a specifiv Diagnosis '''
     investigation_id = models.AutoField(unique=True, primary_key=True)
-    diagnosis_id = models.ForeignKey('Diagnosis')
+    diagnosis_id = models.ForeignKey('Diagnosis', on_delete=models.CASCADE)
     # Originally planned investigation appointment date
     planned_date = models.DateTimeField()
     # Type of Investigation
     investigation_type = models.CharField(max_length=5)
     # Investigation Performed date
     investigation_date = models.DateTimeField()
-    permofrmed_by = models.ForeignKey('medicalofficer.MedicalOfficer')
+    permofrmed_by = models.ForeignKey('medicalofficer.MedicalOfficer', on_delete=models.CASCADE) # noqa E510
     # is results available in system
-    is_complete = models.BooleanFiled(default=True)
+    is_complete = models.BooleanField(default=True)
     # Direction to pre investigation. eg. Fasting required
     pre_remarks = models.CharField(max_length=500)
     remarks = models.CharField(max_length=500)
@@ -99,33 +99,33 @@ class Medication(models.Model):
     to view any conflicting medication options/ help patient consume right
     doseage of medicine '''
 
-    diagnosis_id = models.ForeignKey('Diagnosis')
+    diagnosis_id = models.ForeignKey('Diagnosis', on_delete=models.CASCADE)
     # Code representing type : Oral / Ointment / General / Antibioitc or Other
     medicine_type = models.CharField(max_length=4)
     # Days in int to continue
-    duration_use = models.IntField()
+    duration_use = models.IntegerField()
     # Usage amount per day
-    usage = models.CharField()
+    usage = models.CharField(max_length=100)
     # Usage directions if any
     usage_remarks = models.CharField(max_length=500)
     # name of medicine : composition, may be sustituted with alternate
     medicine = models.CharField(max_length=30)
     # general name for medicine
-    general_name = models.CharFiled(max_length=10)
+    general_name = models.CharField(max_length=10)
     # doseage amount in integer
-    dose = models.IntField()
+    dose = models.IntegerField()
     # measure of dosage may be gm , ml , cc or viable options
-    dose_measure = models.CharFiled(max_length=5)
+    dose_measure = models.CharField(max_length=5)
     # any pre known side effects
     side_effects = models.CharField(max_length=200)
     # start date of consumption
     start_date = models.DateTimeField(auto_now_add=True)
     # is patient still using or supposed to use the medicine
-    is_active = models.BooleanFiled(default=True)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         indexes = [
-                    models.Index(fields=['is_active'], name="active_idx"),
-                    models.Index(fields=['medicine_type'], name="type_idx"),
+                    models.Index(fields=['is_active'], name="activemed_idx"),
+                    models.Index(fields=['medicine_type'], name="medtype_idx"),
                     models.Index(fields=['dose', 'dose_measure'], name="doseage_idx"),  # noqa E501
                         ]

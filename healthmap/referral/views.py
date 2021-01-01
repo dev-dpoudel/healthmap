@@ -1,15 +1,15 @@
 from rest_framework import viewsets
 from rest_framework import permissions
 from .models import Referral
-from referral.serializers import ReferralSerializer
+from .serializers import ReferralSerializer
 from django_filters import rest_framework as filters
 
 
 # Filter Class for Referral
 class ReferFilter(filters.FilterSet):
-    refby = filters.CharField(field_name="refered_by", lookup_expr="iexact")
-    reffrom = filters.CharField(field_name="refered_from", lookup_expr="icontiains")  # noqa E501
-    reftype = filters.CharField(field_name="referral_type", lookup_expr="icontiains")  # noqa E501
+    refby = filters.CharFilter(field_name="refered_by", lookup_expr="iexact")
+    reffrom = filters.CharFilter(field_name="refered_from", lookup_expr="icontiains")  # noqa E501
+    reftype = filters.CharFilter(field_name="referral_type", lookup_expr="icontiains")  # noqa E501
 
     class Meta:
         model = Referral

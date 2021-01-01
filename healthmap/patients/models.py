@@ -16,7 +16,7 @@ class Patients(models.Model):
 class StaffPersons(Patients):
     staff_id = models.AutoField(unique=True, primary_key=True)
     username = models.ForeignKey('user.User', on_delete=models.CASCADE)
-    is_hospital_staff = models.BooleanFiled(default=False)
+    is_hospital_staff = models.BooleanField(default=False)
     staff_post = models.CharField(max_length=25)
 
     class Meta(Patients.Meta):
@@ -31,7 +31,7 @@ class StaffFamily(Patients):
     username = models.ForeignKey('user.User', on_delete=models.CASCADE)
     relation = models.CharField(max_length=20)
     relation_id = models.AutoField(unique=True, primary_key=True)
-    is_billable = models.BooleanFiled(default=False)
+    is_billable = models.BooleanField(default=False)
 
     class Meta(Patients.Meta):
         indexes = [

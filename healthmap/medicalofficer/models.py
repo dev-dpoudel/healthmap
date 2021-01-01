@@ -1,6 +1,12 @@
 from django.db import models
 from datetime import date
 from dateutil.relativedelta import relativedelta
+from django.contrib.auth import get_user_model
+
+
+# Get Default User
+def get_defaultUser():
+    return get_user_model().objects.get(username='alfaaz')[0]
 
 
 # Model Information for Medical Officers.
@@ -8,13 +14,13 @@ class MedicalOfficer(models.Model):
     ''' Class Modal for Medical Officer.'''
 
     officer_id = models.AutoField(primary_key=True, unique=True)
-    username = models.ForeignKey('user.User', on_delete=models.CASCADE)
-    staff_id = models.ForeignKey('patients.StaffPersons')
+    # username = models.ForeignKey('user.User', related_name="username", on_delete=models.CASCADE)  # noqa E501
+    staff_id = models.ForeignKey('patients.StaffPersons', on_delete=models.RESTRICT)  # noqa E501
     position = models.CharField(max_length=20)
     department = models.CharField(max_length=10)
     join_date = models.DateTimeField()
     leave_date = models.DateTimeField()
-    entered_by = models.ForeignKey('user')
+    entered_by = models.ForeignKey('user.User', on_delete=models.SET(get_defaultUser))  # noqa E501
     entered_date = models.DateTimeField(auto_now_add=True)
 
     @property
