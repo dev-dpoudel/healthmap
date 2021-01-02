@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'user',
     'rest_framework',
     'django_filters',
+    'healthmap.hospitalinfo',
     'healthmap.patients',
     'healthmap.casehistory',
     'healthmap.referral',

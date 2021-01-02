@@ -20,7 +20,7 @@ class CaseHistory(models.Model):
     # Current condition and ward information
     case_status = models.CharField(max_length=3)
     # Department currently handling the case
-    department = models.CharField(max_length=3)
+    department = models.ForeignKey('hospitalinfo.DepartmentInformation', on_delete=models.CASCADE)  # noqa E501
     # Patient admit date
     entered_date = models.DateTimeField(auto_now_add=True)
     # Last updated record on

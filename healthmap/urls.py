@@ -24,16 +24,20 @@ from .casehistory import views as caseView
 from .medicalofficer import views as moView
 from .patients import views as staffView
 from .referral import views as referView
+from .hospitalinfo import views as hospitalView
 
 router = routers.DefaultRouter()
 router.register(r'users', userView.UserViewSet)
 router.register(r'groups', userView.GroupViewSet)
 router.register(r'forum', forumView.ForumViewSet)
 router.register(r'files', fileView.FilesViewSet)
-router.register(r'case', caseView.CaseHistoryViewSet)
-router.register(r'mo', moView.MOViewSet)
+router.register(r'caseInfo', caseView.CaseHistoryViewSet)
+router.register(r'medicalStaff', moView.MOViewSet)
 router.register(r'staff', staffView.StaffPersonViewSet)
 router.register(r'refer', referView.ReferralViewSet)
+router.register(r'beds', hospitalView.BedInfoViewSet)
+router.register(r'vacancy', hospitalView.VacancyViewSet)
+
 
 # Settings for Interactive API documentation
 API_TITLE = 'Health Map API'

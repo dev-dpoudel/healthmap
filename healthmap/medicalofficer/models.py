@@ -17,7 +17,7 @@ class MedicalOfficer(models.Model):
     # username = models.ForeignKey('user.User', related_name="username", on_delete=models.CASCADE)  # noqa E501
     staff_id = models.ForeignKey('patients.StaffPersons', on_delete=models.RESTRICT)  # noqa E501
     position = models.CharField(max_length=20)
-    department = models.CharField(max_length=10)
+    department = models.ForeignKey('hospitalinfo.DepartmentInformation', on_delete=models.CASCADE)  # noqa E501
     join_date = models.DateTimeField()
     leave_date = models.DateTimeField()
     entered_by = models.ForeignKey('user.User', on_delete=models.SET(get_defaultUser))  # noqa E501
