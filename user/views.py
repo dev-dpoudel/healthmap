@@ -20,7 +20,7 @@ class UserFilter(filters.FilterSet):
 
     class Meta:
         model = User
-        fields = ['is_active']
+        fields = ['is_active', 'country']
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -50,7 +50,9 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+# Creation of Group is Bloacked as an security issue. Use of Django Admin
+# Interface is advised for such actions
+class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     """
     read:
     Return information about the selected group.
@@ -58,17 +60,6 @@ class GroupViewSet(viewsets.ModelViewSet):
     list:
     Return a list of all the existing group.
 
-    create:
-    Create a new user group.
-
-    update:
-    Update information for the selected user group.
-
-    partial_update:
-    Update the sleceted fields for given user group.
-
-    delete:
-    Delete the given user group.
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
