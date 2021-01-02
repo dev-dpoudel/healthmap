@@ -25,7 +25,23 @@ class UserFilter(filters.FilterSet):
 
 class UserViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows users to be viewed or edited.
+    read:
+    Return the given user. Search based upon additional Query Parameters
+
+    list:
+    Return a list of all the existing users.
+
+    create:
+    Create a new user instance.
+
+    update:
+    Update information for the selected user.
+
+    partial_update:
+    Update the sleceted fields for given user.
+
+    delete:
+    Delete the given user.
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
@@ -36,7 +52,23 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class GroupViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows groups to be viewed or edited.
+    read:
+    Return information about the selected group.
+
+    list:
+    Return a list of all the existing group.
+
+    create:
+    Create a new user group.
+
+    update:
+    Update information for the selected user group.
+
+    partial_update:
+    Update the sleceted fields for given user group.
+
+    delete:
+    Delete the given user group.
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer

@@ -10,17 +10,53 @@ class User (AbstractUser):
     ''' Inherits all base attributes and fields from Abstract User from Auth
         Extending the base nodel with additional informations.
     '''
-    birth_date = models.DateField(default=timezone.now)
-    current_address = models.CharField(max_length=100, null=True)
-    permanent_address = models.CharField(max_length=100, null=True)
+    birth_date = models.DateField(
+        default=timezone.now,
+        help_text='Date of Birth')
+    country = models.CharField(
+        max_length=20,
+        null=True,
+        help_text='Country Name')
+    current_city = models.CharField(
+        max_length=25,
+        null=True,
+        help_text='Current City')
+    current_address = models.CharField(
+        max_length=100,
+        null=True,
+        help_text='Current Address')
+    permanent_address = models.CharField(
+        max_length=100,
+        null=True,
+        help_text='Permanent Address')
     # In Reference to E16.4 max_length(phone_number) eq 15
-    phone_number = models.CharField(max_length=15, null=True)
-    blood_group = models.CharField(max_length=7, null=True)
-    allergies = models.CharField(max_length=500, null=True)
-    emergency_contact = models.CharField(max_length=50, null=True)
-    contact_relation = models.CharField(max_length=20, null=True)
-    modified_date = models.DateField(default=timezone.now)
-    entered_by = models.CharField(max_length=20, null=True)
+    phone_number = models.CharField(
+        max_length=15,
+        null=True,
+        help_text='Default Contact Number')
+    blood_group = models.CharField(
+        max_length=7,
+        null=True,
+        help_text='Blood Group and Type')
+    allergies = models.CharField(
+        max_length=500,
+        null=True,
+        help_text='Known Allergies')
+    emergency_contact = models.CharField(
+        max_length=50,
+        null=True,
+        help_text='Contact Number inCase of Emergency')
+    contact_relation = models.CharField(
+        max_length=20,
+        null=True,
+        help_text='Relation to User')
+    modified_date = models.DateField(
+        default=timezone.now,
+        help_text='Modified Date')
+    entered_by = models.CharField(
+        max_length=20,
+        null=True,
+        help_text='Username performing data Audit')
 
     @property
     def age(self):
