@@ -3,25 +3,57 @@ from rest_framework import permissions
 from .models import Files
 from filemanager.serializers import FileSerializers
 from django_filters import rest_framework as filters
+from helper.viewsets.renderers import (BinaryRenderer)
 
 
 # Filters specific to Case Records
 class FileFilters(filters.FilterSet):
-    user = filters.CharFilter(field_name="entered_by", lookup_expr="icontains")
-    fromdate = filters.DateFilter(field_name="entered_date", lookup_expr="year__gte")  # noqa E501
-    tilldate = filters.DateFilter(field_name="entered_date", lookup_expr="year__lte")  # noqa E501
-    referal = filters.NumberFilter(field_name="referral_id", lookup_expr="exact")  # noqa E501
+    user = filters.CharFilter(
+        field_name="create_by",
+        lookup_expr="icontains",
+        help_text="Created_by Id")
+    fromdate = filters.DateFilter(
+        field_name="modified_date",
+        lookup_expr="year__gte",
+        help_text="Updated Date gte specified date")
+    tilldate = filters.DateFilter(
+        field_name="modified_date",
+        lookup_expr="year__lte",
+        help_text="Updated Date lte specified date")
+    referal = filters.NumberFilter(
+        field_name="ref_id",
+        lookup_expr="exact",
+        help_text="Reference Id . Use in combination of ref_Table and field")
 
     class Meta:
         model = Files
-        fields = ['file_type', 'file_ext', 'ref_id', 'ref_table', 'ref_field']
+        fields = ['file_type', 'ref_table', 'ref_field']
 
 
 class FilesViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows User Files to be viewed or edited.
+
+    API to Moderate Attachment files. Used for forums / diagnoisis and case
+
+    read:
+    Return the given user files. Search based upon additional Query Parameters
+
+    list:
+    Return a list of all the existing user files.
+
+    create:
+    Create a new user File .
+
+    update:
+    Update the given user file.
+
+    partial_update:
+    Update the given user file with minimal required fields.
+
+    delete:
+    Delete the given file.
     """
-    queryset = Files.objects.all().order_by('-update_date')
+    queryset = Files.objects.all().order_by('-modified_date')
     serializer_class = FileSerializers
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = FileFilters

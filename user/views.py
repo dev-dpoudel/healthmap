@@ -7,16 +7,26 @@ from django_filters import rest_framework as filters
 
 
 class UserFilter(filters.FilterSet):
-    username = filters.CharFilter(field_name="username",
-                                  lookup_expr="icontains")
-    birthdate = filters.DateFilter(field_name="birth_date",
-                                   lookup_expr='year__gte')
-    firstname = filters.CharFilter(field_name="first_name",
-                                   lookup_expr='icontains')
-    lastname = filters.CharFilter(field_name="last_name",
-                                  lookup_expr='icontains')
-    bloodgroup = filters.CharFilter(field_name="blood_group",
-                                    lookup_expr='icontains')
+    username = filters.CharFilter(
+        help_text="Search in reference to username",
+        field_name="username",
+        lookup_expr="icontains")
+    birthdate = filters.DateFilter(
+        help_text="Search with Birthdate GTE given date",
+        field_name="birth_date",
+        lookup_expr='year__gte')
+    firstname = filters.CharFilter(
+        help_text="Search matching the first name : Case insensitive",
+        field_name="first_name",
+        lookup_expr='icontains')
+    lastname = filters.CharFilter(
+        help_text="Search matching the lastname : Case insensitive",
+        field_name="last_name",
+        lookup_expr='icontains')
+    bloodgroup = filters.CharFilter(
+        help_text="Search with blood group or containing string",
+        field_name="blood_group",
+        lookup_expr='icontains')
 
     class Meta:
         model = User

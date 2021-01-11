@@ -1,15 +1,18 @@
-from rest_framework import serializers
 from .models import Forums, Discussion
+from helper.serializers.default import HiddenOwnerSerializer
 
 
 # Class for File Serializers
-class ForumSerializers(serializers.HyperlinkedModelSerializer):
+class ForumSerializers(HiddenOwnerSerializer):
+
     class Meta:
         model = Forums
         fields = '__all__'
 
 
-class DiscussionSerializer(serializers.HyperlinkedModelSerializer):
+# Comment Serializers
+class DiscussionSerializer(HiddenOwnerSerializer):
+
     class Meta:
         model = Discussion
         fields = '__all__'

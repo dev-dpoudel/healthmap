@@ -14,14 +14,14 @@ class MedicalOfficer(models.Model):
     ''' Class Modal for Medical Officer.'''
 
     officer_id = models.AutoField(primary_key=True, unique=True)
-    # username = models.ForeignKey('user.User', related_name="username", on_delete=models.CASCADE)  # noqa E501
-    staff_id = models.ForeignKey('patients.StaffPersons', on_delete=models.RESTRICT)  # noqa E501
+    staff_id = models.ForeignKey('patients.StaffPersons',
+                                 on_delete=models.RESTRICT)
     position = models.CharField(max_length=20)
-    department = models.ForeignKey('hospitalinfo.DepartmentInformation', on_delete=models.CASCADE)  # noqa E501
+    department = models.ForeignKey('hospitalinfo.DepartmentInformation',
+                                   on_delete=models.CASCADE)
     join_date = models.DateTimeField()
     leave_date = models.DateTimeField()
-    entered_by = models.ForeignKey('user.User', on_delete=models.SET(get_defaultUser))  # noqa E501
-    entered_date = models.DateTimeField(auto_now_add=True)
+    created_date = models.DateTimeField(auto_now_add=True)
 
     @property
     def service_period(self):
@@ -41,8 +41,8 @@ class MedicalOfficer(models.Model):
                 models.Index(fields=['join_date'], name="joindate_idx")
                 ]
 
-            permissions = ['patient_case', 'patient case',
-                           'patients_diagnoisis', 'patient diagnosis',
-                           'patients_medication', 'patient medication',
-                           'patients_investigation', 'patient investigation'
+            permissions = ['patient_case',
+                           'patients_diagnoisis',
+                           'patients_medication',
+                           'patients_investigation',
                            ]

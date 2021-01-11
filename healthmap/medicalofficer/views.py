@@ -22,7 +22,7 @@ class MOViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows Staff Details to be viewed or edited.
     """
-    queryset = MedicalOfficer.objects.all().order_by('-entered_date')
+    queryset = MedicalOfficer.objects.all().order_by('-created_date')
     serializer_class = MOSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = MOFilters

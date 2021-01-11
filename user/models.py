@@ -70,3 +70,5 @@ class User (AbstractUser):
             models.Index(fields=['first_name', 'last_name'], name='name_idx'),
             models.Index(fields=['blood_group'], name='bloodgroup_idx')
         ]
+
+        unique_together = [('username')]
