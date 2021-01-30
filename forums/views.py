@@ -4,7 +4,7 @@ from .models import Forums, Discussion
 from .serializers import ForumSerializers, DiscussionSerializer
 from django_filters import rest_framework as filters
 # from helper.filters.access_filters import IsOwnerFilterBackend
-from helper.permissions.post_permit import IsOwerOrReadOnly
+from security.permissions import IsOwerOrReadOnly
 
 
 # Filters specific to Forum Thread Records

@@ -1,5 +1,5 @@
 from django.db import models
-from helper.models.owner import HiddenOwnerMixin
+from security.ownerMixin import HiddenOwnerMixin
 # Receive the pre_delete signal and delete associated files
 from django.db.models.signals import (pre_delete)
 from django.dispatch.dispatcher import receiver
@@ -33,22 +33,35 @@ class Files(HiddenOwnerMixin):
 
     @property
     def filesize(self):
-        x = self.file.size
-        y = 512000
-        if x < y:
-            value = round(x / 1000, 2)
-            ext = ' kb'
-        elif x < y * 1000:
-            value = round(x / 1000000, 2)
-            ext = ' Mb'
-        else:
-            value = round(x / 1000000000, 2)
-            ext = ' Gb'
-        return str(value) + ext
+        if self.file:
+            x = self.file.size
+            y = 512000
+            if x < y:
+                value = round(x / 1000, 2)
+                ext = ' kb'
+            elif x < y * 1000:
+                value = round(x / 1000000, 2)
+                ext = ' Mb'
+            else:
+                value = round(x / 1000000000, 2)
+                ext = ' Gb'
+            return str(value) + ext
+
+        return None
 
     @property
     def filename(self):
-        return self.file.name
+        if self.file:
+            return self.file.url
+
+        return None
+
+    @property
+    def fileData(self):
+        if self.file:
+            return self.file.open()
+
+        return None
 
     class Meta:
         indexes = [

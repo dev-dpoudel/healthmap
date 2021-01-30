@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'user',
     'rest_framework',
     'django_filters',
+    'security',
     'healthmap.hospitalinfo',
     'healthmap.patients',
     'healthmap.casehistory',
@@ -70,10 +71,10 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    ]
+    # 'DEFAULT_RENDERER_CLASSES': [
+    #     'rest_framework.renderers.JSONRenderer',
+    #     'rest_framework.renderers.BrowsableAPIRenderer',
+    # ]
 }
 
 ROOT_URLCONF = 'healthmap.urls'
@@ -145,9 +146,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static'
 
 # Uper Uploaded Files
 MEDIA_ROOT = BASE_DIR / 'files'
+MEDIA_URL = '/media/'
 
 #  Provide Authentication Service relying on following User Models
 AUTH_USER_MODEL = 'user.User'

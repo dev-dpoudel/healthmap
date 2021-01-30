@@ -20,6 +20,7 @@ from rest_framework.documentation import include_docs_urls
 from user import views as userView
 from forums import views as forumView
 from filemanager import views as fileView
+from security import views as secureView
 from .casehistory import views as caseView
 from .medicalofficer import views as moView
 from .patients import views as staffView
@@ -38,7 +39,8 @@ router.register(r'staff', staffView.StaffPersonViewSet)
 router.register(r'refer', referView.ReferralViewSet)
 router.register(r'beds', hospitalView.BedInfoViewSet)
 router.register(r'vacancy', hospitalView.VacancyViewSet)
-
+router.register(r'blocklist', secureView.BlocklistViewSet)
+router.register(r'incidence', secureView.IncidenceViewSet)
 
 # Settings for Interactive API documentation
 API_TITLE = 'Health Map API'
@@ -47,6 +49,8 @@ API_DESCRIPTION = 'A web API to monitor and manage Health Related Data'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('docs/', include_docs_urls(title=API_TITLE, description=API_DESCRIPTION)), # noqa E501
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))  # noqa E501
+    path('docs/', include_docs_urls(title=API_TITLE,
+                                    description=API_DESCRIPTION)),
+    path('api-auth/', include('rest_framework.urls',
+                              namespace='rest_framework'))
 ]

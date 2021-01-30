@@ -12,6 +12,8 @@ class HospitalSerializer(serializers.HyperlinkedModelSerializer):
 
 # Serializer for Department Information
 class DepartSerializer(serializers.HyperlinkedModelSerializer):
+    updated_date = serializers.ReadOnlyField()
+    
     class Meta:
         model = DepartmentInformation
         fields = '__all__'

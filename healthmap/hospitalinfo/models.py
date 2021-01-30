@@ -4,19 +4,46 @@ from django.utils import timezone
 
 # Hospital Information Model.
 class HospitalInformation(models.Model):
-    type = models.CharField(max_length=4)
-    name = models.CharField(max_length=50)
-    address = models.CharField(max_length=50)
-    city = models.CharField(max_length=20)
-    region = models.CharField(max_length=15)
-    country = models.CharField(max_length=25)
-    countrycd = models.CharField(max_length=4)
-    emergency_available = models.BooleanField(default=True)
-    has_lab = models.BooleanField(default=True)
-    provides_ambulance = models.BooleanField(default=True)
-    is_active = models.BooleanField(default=True)
-    phone = models.CharField(max_length=15)
-    tollfree_no = models.CharField(max_length=30)
+    type = models.CharField(
+        max_length=4,
+        help_text="Type of hospital facility i.e. special /general")
+    name = models.CharField(
+        max_length=50,
+        help_text="Name of Institution")
+    address = models.CharField(
+        max_length=50,
+        help_text="Location")
+    city = models.CharField(
+        max_length=20,
+        help_text="City")
+    region = models.CharField(
+        max_length=15,
+        help_text="Region i.e. Province or State")
+    country = models.CharField(
+        max_length=25,
+        help_text="Country")
+    emergency_available = models.BooleanField(
+        default=True,
+        help_text="Emergency Service")
+    has_lab = models.BooleanField(
+        default=True,
+        help_text="Lab/ Investigation")
+    provides_ambulance = models.BooleanField(
+        default=True,
+        help_text="Ambulance service")
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Closed/ Operating")
+    phone = models.CharField(
+        max_length=15,
+        help_text="Contact Number")
+    tollfree_no = models.CharField(
+        max_length=30,
+        help_text="Toll Free Number")
+    website = models.CharField(
+        max_length=100,
+        help_text="Website Link",
+        null=True)
 
     class Meta:
         indexes = [
@@ -28,20 +55,42 @@ class HospitalInformation(models.Model):
 
 # Department Information Model.
 class DepartmentInformation(models.Model):
-    hospital = models.ForeignKey('HospitalInformation', on_delete=models.CASCADE)  # noqa E501
-    is_active = models.BooleanField(default=True)
-    name = models.CharField(max_length=10)
-    depart_head = models.ForeignKey('user.User', on_delete=models.RESTRICT)
+    hospital = models.ForeignKey(
+        'HospitalInformation',
+        on_delete=models.CASCADE,
+        help_text="Related Hospital")
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Closed/Serving")
+    name = models.CharField(
+        max_length=10,
+        help_text="Department Name")
+    depart_head = models.ForeignKey(
+        'user.User',
+        on_delete=models.RESTRICT,
+        help_text="Department Name")
     updated_date = models.DateTimeField(auto_now_add=True)
 
 
 # Room Information Model.
 class RoomInformation(models.Model):
-    room_type = models.CharField(max_length=4)
-    block = models.CharField(max_length=20)
-    sub_block = models.CharField(max_length=20, null=True)
-    is_active = models.BooleanField(default=True)
-    department = models.ForeignKey('DepartmentInformation', on_delete=models.CASCADE)  # noqa E501
+    room_type = models.CharField(
+        max_length=4,
+        help_text="Type i.e. ICU / CCU / General")
+    block = models.CharField(
+        max_length=20,
+        help_text="Building Block Code")
+    sub_block = models.CharField(
+        max_length=20,
+        null=True,
+        help_text="Sub Block Code")
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Active/Inactive")
+    department = models.ForeignKey(
+        'DepartmentInformation',
+        on_delete=models.CASCADE,
+        help_text="Department Related to")
 
     class Meta:
         indexes = [
@@ -51,13 +100,28 @@ class RoomInformation(models.Model):
 
 # Bed Information Model
 class BedInformation(models.Model):
-    bed_type = models.CharField(max_length=4)
-    room = models.ForeignKey('RoomInformation', on_delete=models.CASCADE)
-    is_active = models.BooleanField(default=True)
-    is_occupied = models.BooleanField(default=False)
-    visitor_allowed = models.BooleanField(default=False)
-    planned_service_date = models.DateTimeField(null=True)
-    last_service_date = models.DateTimeField(auto_now_add=True)
+    bed_type = models.CharField(
+        max_length=4,
+        help_text="Bed Type")
+    room = models.ForeignKey(
+        'RoomInformation',
+        on_delete=models.CASCADE,
+        help_text="Room Related To")
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Active/Inactive")
+    is_occupied = models.BooleanField(
+        default=False,
+        help_text="Occupied/Vacant")
+    visitor_allowed = models.BooleanField(
+        default=False,
+        help_text="Visitor Allowed")
+    planned_service_date = models.DateTimeField(
+        null=True,
+        help_text="Regular Planned Service Date")
+    last_service_date = models.DateTimeField(
+        auto_now_add=True,
+        help_text="Last service Date")
 
     class Meta:
         indexes = [
@@ -69,14 +133,36 @@ class BedInformation(models.Model):
 
 # Vacancy Related Information
 class VacancyInfo(models.Model):
-    type = models.CharField(max_length=10)
-    position = models.CharField(max_length=15)
-    required_experience = models.IntegerField(default=0)
-    department = models.ForeignKey('DepartmentInformation', on_delete=models.CASCADE)  # noqa E501
-    hospital = models.ForeignKey('HospitalInformation', on_delete=models.CASCADE)  # noqa E501
-    description = models.CharField(max_length=1000)
-    closure_date = models.DateTimeField(default=timezone.now)  # noqa E501
-    total_open = models.IntegerField(default=1)
+    type = models.CharField(
+        max_length=10,
+        help_text="Type of Vacancy")
+    position = models.CharField(
+        max_length=15,
+        help_text="Position of vacancy")
+    required_experience = models.IntegerField(
+        default=0,
+        help_text="Experience Required Years")
+    department = models.ForeignKey(
+        'DepartmentInformation',
+        on_delete=models.CASCADE,
+        help_text="Department Related To")
+    hospital = models.ForeignKey(
+        'HospitalInformation',
+        on_delete=models.CASCADE,
+        help_text="Hospital Related To")
+    description = models.CharField(
+        max_length=1000,
+        help_text="Vacancy Description")
+    closure_date = models.DateTimeField(
+        default=timezone.now,
+        help_text="Apply up till")
+    total_open = models.IntegerField(
+        default=1,
+        help_text="Total Vacant Position")
+    link = models.CharField(
+        max_length=100,
+        help_text="Application Link",
+        null=True)
 
     class Meta:
         indexes = [

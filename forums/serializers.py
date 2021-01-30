@@ -1,5 +1,5 @@
 from .models import Forums, Discussion
-from helper.serializers.default import HiddenOwnerSerializer
+from security.serializers import HiddenOwnerSerializer
 
 
 # Class for File Serializers

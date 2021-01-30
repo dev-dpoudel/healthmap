@@ -2,7 +2,7 @@ from rest_framework import renderers
 
 
 # Define Renderer for media_type Images
-class JPEGRenderer(renderers.BaseRenderer):
+class ImageRenderer(renderers.BaseRenderer):
     media_type = 'image/*'
     charset = None
     render_style = 'binary'
@@ -11,7 +11,7 @@ class JPEGRenderer(renderers.BaseRenderer):
         return data
 
 
-# Define Renderer for media_type Images
+# Define Renderer for media_type PDF
 class PDFRenderer(renderers.BaseRenderer):
     media_type = 'application/PDF'
     format = 'pdf'
@@ -22,9 +22,19 @@ class PDFRenderer(renderers.BaseRenderer):
         return data
 
 
-# Define a Binary Renderer class that outputs as a binary data
-class BinaryRenderer(renderers.BaseRenderer):
-    media_type = '*/*'
+# Define a Renderer class that outputs as text file
+class FileRenderer(renderers.BaseRenderer):
+    media_type = 'text/plain'
+    charset = None
+
+    def render(self, data, media_type=None, renderer_context=None):
+        return data
+
+
+# Define Renderer for media_type Octlet Stream
+class OctetRenderer(renderers.BaseRenderer):
+    media_type = 'application/octet-stream'
+    format = 'pdf'
     charset = None
     render_style = 'binary'
 

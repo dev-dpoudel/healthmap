@@ -1,9 +1,8 @@
 from rest_framework import viewsets
 from rest_framework import permissions
+from django_filters import rest_framework as filters
 from .models import Files
 from filemanager.serializers import FileSerializers
-from django_filters import rest_framework as filters
-from helper.viewsets.renderers import (BinaryRenderer)
 
 
 # Filters specific to Case Records
@@ -52,9 +51,39 @@ class FilesViewSet(viewsets.ModelViewSet):
 
     delete:
     Delete the given file.
+
+    data:
+    Get Binary File Data
     """
     queryset = Files.objects.all().order_by('-modified_date')
     serializer_class = FileSerializers
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = FileFilters
     permission_classes = [permissions.IsAuthenticated]
+
+
+# class FileDataViewSet(RetrieveViewsets):
+#     """
+#
+#     API to get Attachment files. Used for forums / diagnoisis and case
+#
+#     read:
+#     Return the given user files. Search based upon additional Query Parameter
+#     """
+#     queryset = Files.objects.all()
+#     serializer_class = FileDataSerializer
+#     permission_classes = [permissions.IsAuthenticated]
+#     renderer_classes = [OctetRenderer, PDFRenderer, FileRenderer, ImageRenderer]      # noqa E501
+#
+#     # def read(self, request, pk, format=None):
+#     #     queryset = self.get_queryset()
+#     #     serializer = FileDataSerializer(queryset)
+#     #     if serializer.data is not None:
+#     #         file = open(serializer.data.path, 'rb')
+#     #         response = HttpResponse(FileWrapper(file))
+#     #         response['Content-Disposition'] = 'attachment;filename="%s"' %(
+#     #             serializer.data.name)
+#     #     else:
+#     #         response = HttpResponse("Not found")
+#     #
+#     #     return response
