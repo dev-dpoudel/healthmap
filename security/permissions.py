@@ -1,5 +1,22 @@
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import permissions
 from .models import Blocklist
+from datetime import timedelta
+from django.utils import timezone
+
+
+def is_active(start_date, offset):
+    "Returns if the blocklist is active."
+
+    if offset == 0:
+        return False
+
+    if offset == 365:
+        return True
+
+    end_date = start_date + timedelta(days=offset)
+    # Block is effective within the duration specified
+    return timezone.now() <= end_date
 
 
 # Defines permission for Owner for Update property
@@ -40,8 +57,12 @@ class IsBlockListed(permissions.BasePermission):
 
     def has_permission(self, request, view):
         ip_addr = request.META['REMOTE_ADDR']
-        blocked = Blocklist.objects.filter(ip=ip_addr)
-        if not blocked.exists:
-            return True
 
-        return not blocked.is_active
+        try:
+            # Get Unique Instance of Ip
+            blocked = Blocklist.objects.get(ip=ip_addr)
+            return not is_active(blocked.start_date, blocked.duration)
+
+        # In case ip isn't registered as black listed
+        except ObjectDoesNotExist:
+            return True

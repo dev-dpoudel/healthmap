@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.utils import timezone
 
 
-# Hospital Information Model.
+# Blocklist Information Model.
 class Blocklist(models.Model):
     ip = models.GenericIPAddressField(
         unique=True,
@@ -14,28 +14,36 @@ class Blocklist(models.Model):
     reason = models.CharField(
         max_length=200,
         help_text="Reason Blocklisted")
-    entereddt = models.DateTimeField(
+    entered_date = models.DateTimeField(
         auto_now_add=True,
+        help_text="Block List active Date")
+    start_date = models.DateTimeField(
+        default=timezone.now,
         help_text="Block List active Date")
     duration = models.PositiveIntegerField(
         default=1,
-        help_text="Duration of blocklist active in days")
+        help_text="Duration Blocklisted")
 
     @property
     def is_active(self):
         "Returns if the blocklist is active."
 
-        if self.duration == 0:
+        # Duration 365 requires admin intervention
+        if self.duration == 365:
             return True
 
-        end_date = self.entereddt + timedelta(days=self.duration)
+        # Per Current Standard 0 is used for in-active block list
+        if self.duration == 0:
+            return False
+
+        end_date = self.start_date + timedelta(days=self.duration)
         # Block is effective within the duration specified
         return timezone.now() <= end_date
 
     class Meta:
         indexes = [
             models.Index(fields=['ip'], name='ipaddr_idx'),
-            models.Index(fields=['entereddt', 'type'],
+            models.Index(fields=['entered_date', 'type'],
                          name='activated_idx')
         ]
 
@@ -54,6 +62,6 @@ class Incidence(models.Model):
         null=True)
     ip = models.GenericIPAddressField(
         help_text="Requesting IP Address")
-    entereddt = models.DateTimeField(
+    entered_date = models.DateTimeField(
         auto_now_add=True,
         help_text="Incidence Report Date Time")
