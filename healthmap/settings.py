@@ -150,7 +150,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 
 # Uper Uploaded Files
-MEDIA_ROOT = BASE_DIR / 'files'
+MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
 #  Provide Authentication Service relying on following User Models

@@ -80,7 +80,7 @@ class MedicationFilters(filters.FilterSet):
 
     class Meta:
         model = Medication
-        fields = ['medicine_type', 'is_active', 'dose', 'dose_measure']
+        fields = ['medicine_type', 'dose', 'dose_measure', 'duration']
 
 
 class MedicationViewSet(viewsets.ModelViewSet):

@@ -5,5 +5,4 @@ from rest_framework import serializers
 class MOSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = MedicalOfficer
-        fields = ['url', 'staff_id', 'position', 'department',
-                  'join_date', 'service_period']
+        fields = '__all__'

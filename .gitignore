@@ -131,3 +131,4 @@ dmypy.json
 # Project Attachment Files
 files/
 static/
+media/

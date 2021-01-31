@@ -9,6 +9,7 @@ def get_defaultUser():
 
 
 # Provides a shared user property to fetch created_by id
+# To be used with hidden owner serializers
 class HiddenOwnerMixin(models.Model):
 
     @property
