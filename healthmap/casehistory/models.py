@@ -34,10 +34,10 @@ class CaseHistory(models.Model):
         max_length=10,
         help_text="Patient Type")
     # Corresponding user identity
-    patient_id = models.ForeignKey(
+    patient = models.ForeignKey(
         'user.User',
         on_delete=models.RESTRICT,
-        help_text="Patient Id")
+        help_text="Patient Username")
     # Current condition and ward information
     case_status = models.CharField(
         max_length=3,

@@ -9,7 +9,7 @@ from django_filters import rest_framework as filters
 class StaffPersonFilters(filters.FilterSet):
     username = filters.CharFilter(
         field_name="username",
-        lookup_expr="icontiains",
+        lookup_expr="iexact",
         help_text="Username of the Staff Personnel")
 
     class Meta:
@@ -36,7 +36,7 @@ class StaffFamilyFilters(filters.FilterSet):
         help_text="Username of Staff Family")
     id = filters.NumberFilter(
         field_name="Related Staff Id",
-        help_Text="Related staff Id")
+        help_text="Related staff Id")
 
     class Meta:
         model = StaffFamily

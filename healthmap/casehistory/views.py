@@ -1,18 +1,31 @@
+from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework import permissions
 from .models import CaseHistory, Diagnosis, InvestigationHistory, Medication
-from .serializers import (CaseSerializer, DiagnosisSerializer,
+from .serializers import (CaseSerializer,
+                          DiagnosisSerializer,
                           InvestigationSerializer,
                           MedictionSerializer)
-from django_filters import rest_framework as filters
 
 
 # Filters specific to Case Records
 class CaseFilters(filters.FilterSet):
-    username = filters.CharFilter(field_name="username", lookup_expr="icontiains")  # noqa E501
-    fromdate = filters.DateFilter(field_name="entered_date", lookup_expr="year__gte")  # noqa E501
-    tilldate = filters.DateFilter(field_name="entered_date", lookup_expr="year__lte")  # noqa E501
-    referal = filters.NumberFilter(field_name="referral_id", lookup_expr="exact")  # noqa E501
+    username = filters.CharFilter(
+        field_name="username",
+        lookup_expr="iexact",
+        help_text="Patient name")
+    fromdate = filters.DateFilter(
+        field_name="entered_date",
+        lookup_expr="year__gte",
+        help_text="Case registered date gte fromdate")
+    tilldate = filters.DateFilter(
+        field_name="entered_date",
+        lookup_expr="year__lte",
+        help_text="Case registered lte date")
+    referal = filters.NumberFilter(
+        field_name="referral_id",
+        lookup_expr="exact",
+        help_text="Referral Identification")
 
     class Meta:
         model = CaseHistory
@@ -32,9 +45,18 @@ class CaseHistoryViewSet(viewsets.ModelViewSet):
 
 # Filters specific to Diagnosis
 class DiagnosisFilters(filters.FilterSet):
-    fromdate = filters.DateFilter(field_name="diagnose_date", lookup_expr="year__gte")  # noqa E501
-    tilldate = filters.DateFilter(field_name="diagnose_date", lookup_expr="year__lte")  # noqa E501
-    followdate = filters.DateFilter(field_name="followup_date", lookup_expr="year__eq")  # noqa E501
+    fromdate = filters.DateFilter(
+        field_name="diagnose_date",
+        lookup_expr="year__gte",
+        help_text="Case registered gte date")
+    tilldate = filters.DateFilter(
+        field_name="diagnose_date",
+        lookup_expr="year__lte",
+        help_text="Case registered lte date")
+    followdate = filters.DateFilter(
+        field_name="followup_date",
+        lookup_expr="year__eq",
+        help_text="Follow up date")
 
     class Meta:
         model = Diagnosis
@@ -54,8 +76,14 @@ class DiagnosisViewSet(viewsets.ModelViewSet):
 
 # Filters specific to Diagnosis
 class InvestigationFilters(filters.FilterSet):
-    fromdate = filters.DateFilter(field_name="investigation_date", lookup_expr="year__gte")  # noqa E501
-    tilldate = filters.DateFilter(field_name="investigation_date", lookup_expr="year__lte")  # noqa E501
+    fromdate = filters.DateFilter(
+        field_name="investigation_date",
+        lookup_expr="year__gte",
+        help_text="Investigation registered gte date")
+    tilldate = filters.DateFilter(
+        field_name="investigation_date",
+        lookup_expr="year__lte",
+        help_text="Investigation registered lte date")
 
     class Meta:
         model = InvestigationHistory
@@ -75,8 +103,14 @@ class InvestigationHistoryViewSet(viewsets.ModelViewSet):
 
 # Filters specific to Diagnosis
 class MedicationFilters(filters.FilterSet):
-    fromdate = filters.DateFilter(field_name="start_date", lookup_expr="year__gte")  # noqa E501
-    tilldate = filters.DateFilter(field_name="start_date", lookup_expr="year__lte")  # noqa E501
+    fromdate = filters.DateFilter(
+        field_name="start_date",
+        lookup_expr="year__gte",
+        help_text="Medicine start gte date")
+    tilldate = filters.DateFilter(
+        field_name="start_date",
+        lookup_expr="year__lte",
+        help_text="Medication start lte date")
 
     class Meta:
         model = Medication

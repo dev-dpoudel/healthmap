@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from rest_framework import permissions
+from security import permissions
 from .models import MedicalOfficer
 from .serializers import MOSerializer
 from django_filters import rest_framework as filters
@@ -41,4 +41,4 @@ class MOViewSet(viewsets.ModelViewSet):
     serializer_class = MOSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = MOFilters
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAdminOrReadOnly]

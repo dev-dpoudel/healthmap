@@ -7,9 +7,18 @@ from django_filters import rest_framework as filters
 
 # Filter Class for Referral
 class ReferFilter(filters.FilterSet):
-    refby = filters.CharFilter(field_name="refered_by", lookup_expr="iexact")
-    reffrom = filters.CharFilter(field_name="refered_from", lookup_expr="icontiains")  # noqa E501
-    reftype = filters.CharFilter(field_name="referral_type", lookup_expr="icontiains")  # noqa E501
+    refby = filters.CharFilter(
+        field_name="refered_by",
+        lookup_expr="iexact",
+        help_text="Referring Person")
+    reffrom = filters.CharFilter(
+        field_name="refered_from",
+        lookup_expr="icontiains",
+        help_Text="Refered from Hospital / Department / Ward")
+    reftype = filters.CharFilter(
+        field_name="referral_type",
+        lookup_expr="iexact",
+        help_text="Referral Type")
 
     class Meta:
         model = Referral

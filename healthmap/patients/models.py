@@ -14,9 +14,16 @@ class Patients(models.Model):
 # Model for Staff Information.
 class StaffPersons(Patients):
     staff_id = models.AutoField(unique=True, primary_key=True)
-    username = models.ForeignKey('user.User', on_delete=models.CASCADE)
-    is_hospital_staff = models.BooleanField(default=False)
-    staff_post = models.CharField(max_length=25)
+    username = models.ForeignKey(
+        'user.User',
+        on_delete=models.CASCADE,
+        help_text="Username of the Staff")
+    is_hospital_staff = models.BooleanField(
+        default=False,
+        help_text="Is hospital Staff or Not")
+    staff_post = models.CharField(
+        max_length=25,
+        help_text="Position of Staff")
 
     class Meta(Patients.Meta):
         indexes = [
@@ -26,11 +33,24 @@ class StaffPersons(Patients):
 
 # Model for Staff Family
 class StaffFamily(Patients):
-    staff_id = models.ForeignKey('StaffPersons', on_delete=models.CASCADE)
-    username = models.ForeignKey('user.User', on_delete=models.CASCADE)
-    relation = models.CharField(max_length=20)
-    relation_id = models.AutoField(unique=True, primary_key=True)
-    is_billable = models.BooleanField(default=False)
+    relation_id = models.AutoField(
+        unique=True,
+        primary_key=True,
+        help_text="Relationship Id")
+    staff_id = models.ForeignKey(
+        'StaffPersons',
+        on_delete=models.CASCADE,
+        help_text="Related Staff Id")
+    username = models.ForeignKey(
+        'user.User',
+        on_delete=models.CASCADE,
+        help_text="Username")
+    relation = models.CharField(
+        max_length=20,
+        help_text="Relation to Staff")
+    is_billable = models.BooleanField(
+        default=False,
+        help_text="Is billable patient")
 
     class Meta(Patients.Meta):
         indexes = [
