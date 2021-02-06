@@ -34,8 +34,9 @@ class CaseHistory(models.Model):
         max_length=10,
         help_text="Patient Type")
     # Corresponding user identity
-    patient = models.ForeignKey(
+    patient_id = models.ForeignKey(
         'user.User',
+        to_field='username',
         on_delete=models.RESTRICT,
         help_text="Patient Username")
     # Current condition and ward information
@@ -51,6 +52,7 @@ class CaseHistory(models.Model):
     entered_date = models.DateTimeField(auto_now_add=True)
     # Last updated record on
     update_date = models.DateTimeField(auto_now=True)
+    diagnosis = None
 
     class Meta:
         indexes = [
@@ -78,6 +80,7 @@ class Diagnosis(models.Model):
         help_text="Diagnoisis Id")
     case_id = models.ForeignKey(
         'CaseHistory',
+        related_name="diagnosis",
         on_delete=models.CASCADE,
         help_text="Related Case Id")
     # general observation reported by MO
@@ -91,7 +94,8 @@ class Diagnosis(models.Model):
     # allergies specific to diagnosis periods i.e. related to medicine
     allergies = models.CharField(
         max_length=10,
-        help_text="Recorded allergies")
+        help_text="Recorded allergies",
+        null=True)
     # is lab work required i.e. blood test / Scans etc.
     is_investigation_req = models.BooleanField(
         default=False,
@@ -101,7 +105,9 @@ class Diagnosis(models.Model):
         auto_now_add=True,
         help_text="Diagnosis Date")
     # Follow up Check up Date
-    followup_date = models.DateTimeField(help_text="Follow up date")
+    followup_date = models.DateTimeField(
+        null=True,
+        help_text="Follow up date")
 
     class Meta:
         indexes = [
@@ -124,6 +130,7 @@ class InvestigationHistory(models.Model):
         help_text="Investigation Id")
     diagnosis_id = models.ForeignKey(
         'Diagnosis',
+        related_name="investigations",
         on_delete=models.CASCADE,
         help_text="Related Diagnosis")
     # Originally planned investigation appointment date
@@ -169,6 +176,7 @@ class Medication(models.Model):
 
     diagnosis_id = models.ForeignKey(
         'Diagnosis',
+        related_name="medicines",
         on_delete=models.CASCADE,
         help_text="Related Diagnosis Id")
     # Code representing type : Oral / Ointment / General / Antibioitc or Other

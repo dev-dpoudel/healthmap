@@ -1,9 +1,16 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 
 # Hospital Information Model.
 class HospitalInformation(models.Model):
+
+    class HospitalType(models.TextChoices):
+        GENERAL = 'GEN', _('General')
+        PHYSIO = 'PSY', _('Physiotherapy')
+        OUTHOSPITAL = 'IHGE', _('Inter Hospital General')
+
     type = models.CharField(
         max_length=4,
         help_text="Type of hospital facility i.e. special /general")
@@ -55,6 +62,24 @@ class HospitalInformation(models.Model):
 
 # Department Information Model.
 class DepartmentInformation(models.Model):
+
+    class DepartmentType(models.TextChoices):
+        EMERGENCY = 'EMR', _('Emergency')
+        ANASTHECIA = 'ATC', _('Anasthetics')
+        ONCOLOGY = 'ONC', _('Oncology')
+        CARDIOLOGY = 'CRD', _('Cardiology')
+        STERILE = 'SPD', _('Sterile Processing Department')
+        DIMAGING = 'DIMG', _('Diagnostic Imaging')
+        GASTRO = 'GAST', _('Gastroenterology')
+        GYNO = 'GYNO', _('Gynocology')
+        HEMATO = 'HEMT', _('Hematology')
+        INFECTION = 'ICO', _('Infection Control')
+        OPTHALMO = 'OPTH', _('Opthalmology')
+        UROLOGY = 'Uro', _('Urology')
+        ENT = 'ENT', _('Ear Nose Throat')
+        NEURO = 'NEU', _('Neuro')
+        PEDIA = 'PED', _('Pediatrics')
+
     hospital = models.ForeignKey(
         'HospitalInformation',
         on_delete=models.CASCADE,
@@ -74,6 +99,13 @@ class DepartmentInformation(models.Model):
 
 # Room Information Model.
 class RoomInformation(models.Model):
+
+    class RoomType(models.TextChoices):
+        GENERAL = 'GEN', _('General')
+        GCABIN = 'GCAB', _('General Private Cabin')
+        INTENSIVE = 'ICU', _('Intensive Care Unit')
+        CRITICAL = 'CCU', _('Critical Care Unit')
+
     room_type = models.CharField(
         max_length=4,
         help_text="Type i.e. ICU / CCU / General")
@@ -100,6 +132,13 @@ class RoomInformation(models.Model):
 
 # Bed Information Model
 class BedInformation(models.Model):
+
+    class BedType(models.TextChoices):
+        GENERAL = 'GEN', _('General')
+        VENTILATED = 'VENT', _('Ventilated Bed')
+        CONSTMONIT = 'CMON', _('Constant Monitoring Bed')
+        RECLINED = 'RECL', _('Recline Bed')
+
     bed_type = models.CharField(
         max_length=4,
         help_text="Bed Type")
@@ -133,6 +172,12 @@ class BedInformation(models.Model):
 
 # Vacancy Related Information
 class VacancyInfo(models.Model):
+
+    class VacancyType(models.TextChoices):
+        CONTRACT = 'CONT', _('Contract Full Time')
+        PERMANENT = 'PERM', _('Permanent Full Time')
+        PARTTIME = 'PART', _('Part Time')
+
     type = models.CharField(
         max_length=10,
         help_text="Type of Vacancy")

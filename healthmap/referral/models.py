@@ -1,16 +1,25 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 
 # Definition related to Referral : Departmental or Inter Hospital
 class Referral(models.Model):
+
+    class ReferralType(models.TextChoices):
+        INTRADEPT = 'IDEP', _('Internal Department')
+        OUTDEPT = 'IHSP', _('Inter Hospital Specialist')
+        OUTHOSPITAL = 'IHGE', _('Inter Hospital General')
+
     referral_id = models.AutoField(
         unique=True,
         primary_key=True,
         help_text="Referral Identification Number")
     # Referral Type Code
     referral_type = models.CharField(
-        max_length=3,
+        max_length=4,
+        choices=ReferralType.choices,
+        default=ReferralType.INTRADEPT,
         help_text="Referral Type")
     # Referring Personal Information
     refered_by = models.ForeignKey(

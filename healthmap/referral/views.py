@@ -14,7 +14,7 @@ class ReferFilter(filters.FilterSet):
     reffrom = filters.CharFilter(
         field_name="refered_from",
         lookup_expr="icontiains",
-        help_Text="Refered from Hospital / Department / Ward")
+        help_text="Refered from Hospital / Department / Ward")
     reftype = filters.CharFilter(
         field_name="referral_type",
         lookup_expr="iexact",

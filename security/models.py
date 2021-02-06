@@ -1,15 +1,24 @@
 from django.db import models
 from datetime import timedelta
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 
 # Blocklist Information Model.
 class Blocklist(models.Model):
+
+    class BlocklistType(models.TextChoices):
+        GENERAL = 'GEN', _('General')  # Added in response to collected data
+        PREDEF = 'PDEF', _('Pre Defined')  # List of IP added pre production
+        NIDS = 'NDS', _('Network Intrusuion')  # Possible Threat Cause
+
     ip = models.GenericIPAddressField(
         unique=True,
         help_text="IP address of the user")
     type = models.CharField(
         max_length=4,
+        choices=BlocklistType.choices,
+        default=BlocklistType.GENERAL,
         help_text="Type of Block List")
     reason = models.CharField(
         max_length=200,
@@ -50,10 +59,31 @@ class Blocklist(models.Model):
 
 # Department Information Model.
 class Incidence(models.Model):
+
+    class IncidenceSource(models.TextChoices):
+        GENERAL = 'GEN', _('General')
+        CYBERSEC = 'CS', _('Cyber Security')
+        NIDS = 'NDS', _('Network Intrusuion')
+
+    class IncidenceType(models.TextChoices):
+        VIOLATE = 'AV', _('Access Violation')
+        ARPPOISION = 'ARP', _('ARP Poisioning')
+        MALWARE = 'MAL', _('Malicious Code')
+        EVEDROP = 'EDP', _('Eves Dropping')
+
+    # User may be anonymous: DDOS/ DoS attacks / Pshising / ARP poision / CSRF
+    source = models.CharField(
+        max_length=4,
+        choices=IncidenceSource.choices,
+        default=IncidenceSource.GENERAL,
+        help_text="Type of Incidence Source")
+
     type = models.CharField(
         max_length=4,
+        choices=IncidenceType.choices,
+        default=IncidenceType.VIOLATE,
         help_text="Type of Incidence Reported")
-    # User may be anonymous: DDOS/ DoS attacks / Pshising / ARP poision / CSRF
+
     user = models.ForeignKey(
         'user.User',
         to_field='username',

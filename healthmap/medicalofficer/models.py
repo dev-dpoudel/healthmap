@@ -13,6 +13,7 @@ class MedicalOfficer(models.Model):
         help_text="Officer Id")
     username = models.ForeignKey(
         'user.User',
+        to_field='username',
         on_delete=models.RESTRICT,
         help_text="Username")
     position = models.CharField(
@@ -41,7 +42,7 @@ class MedicalOfficer(models.Model):
         class Meta:
             indexes = [
                 models.Index(fields=['position', 'department'],
-                             name="post_idx"),  # noqa E501
+                             name="post_idx"),
                 models.Index(fields=['join_date'],
                              name="joindate_idx")
                 ]

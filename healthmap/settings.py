@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'security',
+    'xinfo',
     'healthmap.hospitalinfo',
     'healthmap.patients',
     'healthmap.casehistory',

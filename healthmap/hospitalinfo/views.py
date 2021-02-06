@@ -16,12 +16,22 @@ from security.permissions import IsAdminOrReadOnly
 
 # Filters specific to Hospital Records
 class HospitalFilters(filters.FilterSet):
-    name = filters.CharFilter(field_name="name",
-                              lookup_expr="icontiains",
-                              help_text="Filter by Name")
-    city = filters.CharFilter(field_name="city", lookup_expr="iexact")
-    region = filters.CharFilter(field_name="region", lookup_expr="iexact")
-    country = filters.CharFilter(field_name="country", lookup_expr="iexact")
+    name = filters.CharFilter(
+        field_name="name",
+        lookup_expr="icontiains",
+        help_text="Name of Hospital")
+    city = filters.CharFilter(
+        field_name="city",
+        lookup_expr="iexact",
+        help_text="City")
+    region = filters.CharFilter(
+        field_name="region",
+        lookup_expr="iexact",
+        help_text="City")
+    country = filters.CharFilter(
+        field_name="country",
+        lookup_expr="iexact",
+        help_text="Country")
 
     class Meta:
         model = HospitalInformation
@@ -60,8 +70,13 @@ class DepartmentViewSet(viewsets.ModelViewSet):
 
 # Filters specific to Room Information
 class RoomInfoFilters(filters.FilterSet):
-    active = filters.BooleanFilter(field_name="is_active")
-    type = filters.CharFilter(field_name="room_type", lookup_expr="iexact")
+    active = filters.BooleanFilter(
+        field_name="is_active",
+        help_text="Is Room Operating")
+    type = filters.CharFilter(
+        field_name="room_type",
+        lookup_expr="iexact",
+        hrlp_text="Room Type")
 
     class Meta:
         model = RoomInformation
@@ -114,8 +129,14 @@ class BedInfoViewSet(viewsets.ModelViewSet):
 
 # Filters specific to Diagnosis
 class VacancyFilters(filters.FilterSet):
-    fromdate = filters.DateFilter(field_name="closure_date", lookup_expr="year__gte")  # noqa E501
-    tilldate = filters.DateFilter(field_name="closure_date", lookup_expr="year__lte")  # noqa E501
+    fromdate = filters.DateFilter(
+        field_name="closure_date",
+        lookup_expr="year__gte",
+        help_text="Date gte selected date")
+    tilldate = filters.DateFilter(
+        field_name="closure_date",
+        lookup_expr="year__lte",
+        help_text="Date gte selected date")
 
     class Meta:
         model = VacancyInfo

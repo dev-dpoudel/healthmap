@@ -26,6 +26,7 @@ from .medicalofficer import views as moView
 from .patients import views as staffView
 from .referral import views as referView
 from .hospitalinfo import views as hospitalView
+from xinfo import views as xSetting
 
 router = routers.DefaultRouter()
 router.register(r'users', userView.UserViewSet)
@@ -48,6 +49,7 @@ router.register(r'beds', hospitalView.BedInfoViewSet)
 router.register(r'vacancy', hospitalView.VacancyViewSet)
 router.register(r'blocklist', secureView.BlocklistViewSet)
 router.register(r'incidence', secureView.IncidenceViewSet)
+router.register(r'xsettings', xSetting.XSettingsViewSet)
 
 # Settings for Interactive API documentation
 API_TITLE = 'Health Map API'
