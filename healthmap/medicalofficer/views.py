@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.filters import OrderingFilter
 from security import permissions
 from .models import MedicalOfficer
 from .serializers import MOSerializer
@@ -39,6 +40,8 @@ class MOViewSet(viewsets.ModelViewSet):
     """
     queryset = MedicalOfficer.objects.all().order_by('-created_date')
     serializer_class = MOSerializer
-    filter_backends = [filters.DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend, OrderingFilter]
     filter_class = MOFilters
+    ordering_fields = ['created_date', 'department', 'user']
+    ordering = ['-created_date']
     permission_classes = [permissions.IsAdminOrReadOnly]

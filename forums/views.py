@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.filters import OrderingFilter
 from .models import Forums, Discussion
 from .serializers import ForumSerializers, DiscussionSerializer
 from django_filters import rest_framework as filters
@@ -47,10 +48,12 @@ class ForumViewSet(viewsets.ModelViewSet):
     delete:
     Delete the given user thread.
     """
-    queryset = Forums.objects.all().order_by('-created_date')
+    queryset = Forums.objects.all()
     serializer_class = ForumSerializers
-    filter_backends = [filters.DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend, OrderingFilter]
     filter_class = ForumFilters
+    ordering_fields = ['created_date', 'created_by', 'updated_date']
+    ordering = ['-created_date']
     permission_classes = [permissions.IsAuthenticated, IsOwerOrReadOnly]
 
 
@@ -98,8 +101,10 @@ class DiscussionViewSet(viewsets.ModelViewSet):
     delete:
     Delete the selected user comment.
     """
-    queryset = Discussion.objects.all().order_by('-created_date')
+    queryset = Discussion.objects.all()
     serializer_class = DiscussionSerializer
-    filter_backends = [filters.DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend, OrderingFilter]
     filter_class = DiscussionFilters
+    ordering_fields = ['created_date', 'created_by']
+    ordering = ['-created_date']
     permission_classes = [permissions.IsAuthenticated, IsOwerOrReadOnly]

@@ -1,5 +1,6 @@
 from .viewMixins import GetListMixins
 from rest_framework import permissions
+from rest_framework.filters import OrderingFilter
 from django_filters import rest_framework as filters
 # Import Model Related to Blocklist and Incidence
 from .models import (Blocklist, Incidence)
@@ -35,8 +36,10 @@ class BlocklistViewSet(GetListMixins):
     """
     queryset = Blocklist.objects.all().order_by('start_date')
     serializer_class = BlocklistSerializer
-    filter_backends = [filters.DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend, OrderingFilter]
     filter_class = BlocklistFilters
+    ordering_fields = '__all__'
+    ordering = ['start_date']
     permission_classes = [permissions.IsAdminUser]
 
 
@@ -68,6 +71,8 @@ class IncidenceViewSet(GetListMixins):
     """
     queryset = Incidence.objects.all().order_by('entered_date')
     serializer_class = IncidenceSerializer
-    filter_backends = [filters.DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend, OrderingFilter]
     filter_class = IncidenceFilters
+    ordering_fields = ['entered_date', 'user', 'ip']
+    ordering = ['entered_date']
     permission_classes = [permissions.IsAdminUser]

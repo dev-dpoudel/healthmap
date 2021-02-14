@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.filters import OrderingFilter
 # Import Model Related to Hospital and Department
 from .models import (HospitalInformation, DepartmentInformation,
                      RoomInformation, BedInformation, VacancyInfo)
@@ -44,8 +45,10 @@ class HospitalViewSet(viewsets.ModelViewSet):
     """
     queryset = HospitalInformation.objects.all()
     serializer_class = HospitalSerializer
-    filter_backends = [filters.DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend, OrderingFilter]
     filter_class = HospitalFilters
+    ordering_fields = ['name', 'country', 'city', 'region']
+    ordering = ['name']
     permission_classes = [IsAdminOrReadOnly]
 
 

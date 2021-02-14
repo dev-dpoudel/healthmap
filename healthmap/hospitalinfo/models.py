@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from xinfo.getXInfo import get_xSettings
 
 
 # Hospital Information Model.
@@ -52,6 +53,13 @@ class HospitalInformation(models.Model):
         help_text="Website Link",
         null=True)
 
+    @property
+    def hospital_type(self):
+
+        return get_xSettings(tablespace="department",
+                             identity="type",
+                             code=self.type)
+
     class Meta:
         indexes = [
             models.Index(fields=['name'], name='hospital_idx'),
@@ -88,12 +96,12 @@ class DepartmentInformation(models.Model):
         default=True,
         help_text="Closed/Serving")
     name = models.CharField(
-        max_length=10,
+        max_length=4,
         help_text="Department Name")
     depart_head = models.ForeignKey(
         'user.User',
         on_delete=models.RESTRICT,
-        help_text="Department Name")
+        help_text="Department Head Name")
     updated_date = models.DateTimeField(auto_now_add=True)
 
 
@@ -179,7 +187,7 @@ class VacancyInfo(models.Model):
         PARTTIME = 'PART', _('Part Time')
 
     type = models.CharField(
-        max_length=10,
+        max_length=4,
         help_text="Type of Vacancy")
     position = models.CharField(
         max_length=15,

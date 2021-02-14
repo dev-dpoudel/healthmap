@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.filters import OrderingFilter
 from django_filters import rest_framework as filters
 # Import Model Related to Blocklist and Incidence
 from .models import (XSettings)
@@ -23,7 +24,7 @@ class xSettingFilters(filters.FilterSet):
 
     class Meta:
         model = XSettings
-        fields = ['active']
+        fields = ['active', 'identity', 'tablespace']
 
 
 class XSettingsViewSet(viewsets.ModelViewSet):
@@ -46,8 +47,10 @@ class XSettingsViewSet(viewsets.ModelViewSet):
     delete:
     Delete the given user thread.
     """
-    queryset = XSettings.objects.all().order_by('-code')
+    queryset = XSettings.objects.all()
     serializer_class = XSettingsSerializers
-    filter_backends = [filters.DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend, OrderingFilter]
     filter_class = xSettingFilters
+    ordering_fields = ['code', 'type', 'tablespace', 'identity']
+    ordering = ['-code']
     permission_classes = [permissions.IsAdminUser]

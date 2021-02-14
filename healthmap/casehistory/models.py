@@ -14,7 +14,7 @@ class CaseHistory(models.Model):
         help_text="Case Identification Number")
     # Case type may be Emergency | Walkin Checkup | Hospitalized Case
     case_type = models.CharField(
-        max_length=10,
+        max_length=4,
         help_text="Case Type")
     referral_id = models.ForeignKey(
         'referral.Referral',
@@ -31,7 +31,7 @@ class CaseHistory(models.Model):
         help_text="Obvervation Summary")
     # General Tags : specific to disese type i.e. Cancer etc.
     patient_type = models.CharField(
-        max_length=10,
+        max_length=4,
         help_text="Patient Type")
     # Corresponding user identity
     patient_id = models.ForeignKey(
@@ -137,7 +137,7 @@ class InvestigationHistory(models.Model):
     planned_date = models.DateTimeField(help_text="Planned investigation date")
     # Type of Investigation
     investigation_type = models.CharField(
-        max_length=5,
+        max_length=4,
         help_text="Type of Investigtaion")
     # Investigation Performed date
     investigation_date = models.DateTimeField(help_text="Investigated Date")

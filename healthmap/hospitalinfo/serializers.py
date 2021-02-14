@@ -5,15 +5,20 @@ from rest_framework import serializers
 
 # Serializer for Hospital+ Information
 class HospitalSerializer(serializers.HyperlinkedModelSerializer):
+    hospital_type = serializers.ReadOnlyField()
+
     class Meta:
         model = HospitalInformation
         fields = '__all__'
+        extra_kwargs = {
+            # 'type': {'write_only': True},
+        }
 
 
 # Serializer for Department Information
 class DepartSerializer(serializers.HyperlinkedModelSerializer):
     updated_date = serializers.ReadOnlyField()
-    
+
     class Meta:
         model = DepartmentInformation
         fields = '__all__'

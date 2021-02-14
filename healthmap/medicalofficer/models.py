@@ -17,7 +17,7 @@ class MedicalOfficer(models.Model):
         on_delete=models.RESTRICT,
         help_text="Username")
     position = models.CharField(
-        max_length=20,
+        max_length=4,
         help_text="MO Position")  # May be Consultant, Dentist
     department = models.ForeignKey(
         'hospitalinfo.DepartmentInformation',
