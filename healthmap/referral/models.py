@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from xinfo.getXInfo import get_xSettings
 
 
 # Definition related to Referral : Departmental or Inter Hospital
@@ -40,6 +41,13 @@ class Referral(models.Model):
     refered_remarks = models.CharField(
         max_length=100,
         help_text="Refered Remarks")
+
+    @property
+    def type(self):
+
+        return get_xSettings(tablespace="referral",
+                             identity="type",
+                             code=self.referral_type)
 
     class Meta:
         indexes = [

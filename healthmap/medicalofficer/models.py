@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from dateutil.relativedelta import relativedelta
+from xinfo.getXInfo import get_xSettings
 
 
 # Model Information for Medical Officers.
@@ -39,13 +40,20 @@ class MedicalOfficer(models.Model):
         return {"year": service.years, "month": service.months,
                 "days": service.days}
 
+    @property
+    def post(self):
+
+        return get_xSettings(tablespace="medicalofficer",
+                             identity="post",
+                             code=self.position)
+
         class Meta:
             indexes = [
                 models.Index(fields=['position', 'department'],
                              name="post_idx"),
                 models.Index(fields=['join_date'],
                              name="joindate_idx")
-                ]
+            ]
 
             permissions = ['patient_case',
                            'patients_diagnoisis',

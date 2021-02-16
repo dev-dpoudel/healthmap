@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import timedelta
 from django.utils import timezone
+from xinfo.getXInfo import get_xSettings
 
 
 # Definition of Case History Models
@@ -53,6 +54,27 @@ class CaseHistory(models.Model):
     # Last updated record on
     update_date = models.DateTimeField(auto_now=True)
     diagnosis = None
+
+    @property
+    def case_typeds(self):
+
+        return get_xSettings(tablespace="case",
+                             identity="type",
+                             code=self.case_type)
+
+    @property
+    def patient_typeds(self):
+
+        return get_xSettings(tablespace="case",
+                             identity="patient",
+                             code=self.patient_type)
+
+    @property
+    def status(self):
+
+        return get_xSettings(tablespace="case",
+                             identity="status",
+                             code=self.case_status)
 
     class Meta:
         indexes = [
@@ -158,6 +180,13 @@ class InvestigationHistory(models.Model):
         max_length=500,
         help_text="Remarks after Investigation")
 
+    @property
+    def type(self):
+
+        return get_xSettings(tablespace="investigation",
+                             identity="type",
+                             code=self.investigation_type)
+
     class Meta:
         indexes = [
             models.Index(fields=['investigation_date'],
@@ -211,6 +240,13 @@ class Medication(models.Model):
     start_date = models.DateTimeField(
         auto_now_add=True,
         help_text="Start Date")
+
+    @property
+    def type(self):
+
+        return get_xSettings(tablespace="medicine",
+                             identity="type",
+                             code=self.medicine_type)
 
     # is patient still using or supposed to use the medicine
     @property

@@ -52,5 +52,5 @@ class XSettingsViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend, OrderingFilter]
     filter_class = xSettingFilters
     ordering_fields = ['code', 'type', 'tablespace', 'identity']
-    ordering = ['-code']
+    ordering = ['tablespace', '-identity']
     permission_classes = [permissions.IsAdminUser]

@@ -18,6 +18,7 @@ class HospitalSerializer(serializers.HyperlinkedModelSerializer):
 # Serializer for Department Information
 class DepartSerializer(serializers.HyperlinkedModelSerializer):
     updated_date = serializers.ReadOnlyField()
+    department_name = serializers.ReadOnlyField()
 
     class Meta:
         model = DepartmentInformation
@@ -26,6 +27,8 @@ class DepartSerializer(serializers.HyperlinkedModelSerializer):
 
 # Serializer for Room Information
 class RoomInfoSerializer(serializers.HyperlinkedModelSerializer):
+    type = serializers.ReadOnlyField()
+
     class Meta:
         model = RoomInformation
         fields = '__all__'
@@ -33,6 +36,8 @@ class RoomInfoSerializer(serializers.HyperlinkedModelSerializer):
 
 # Serializer for Bed Information
 class BedInfoSerializer(serializers.HyperlinkedModelSerializer):
+    type = serializers.ReadOnlyField()
+
     class Meta:
         model = BedInformation
         fields = '__all__'
@@ -40,6 +45,8 @@ class BedInfoSerializer(serializers.HyperlinkedModelSerializer):
 
 # Serializer for Bed Information
 class VacancySerializer(serializers.HyperlinkedModelSerializer):
+    vacancy_type = serializers.ReadOnlyField()
+
     class Meta:
         model = VacancyInfo
         fields = '__all__'

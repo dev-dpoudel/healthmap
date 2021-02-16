@@ -4,6 +4,8 @@ from rest_framework import serializers
 
 # Serializers for Investigation History and Related Information
 class InvestigationSerializer(serializers.HyperlinkedModelSerializer):
+    type = serializers.ReadOnlyField()
+
     class Meta:
         model = InvestigationHistory
         fields = '__all__'
@@ -11,6 +13,8 @@ class InvestigationSerializer(serializers.HyperlinkedModelSerializer):
 
 # Serializers for Medication Information
 class MedictionSerializer(serializers.HyperlinkedModelSerializer):
+    type = serializers.ReadOnlyField()
+
     class Meta:
         model = Medication
         fields = '__all__'
@@ -29,6 +33,9 @@ class DiagnosisSerializer(serializers.HyperlinkedModelSerializer):
 # Serializers for Case History and Related Information
 class CaseSerializer(serializers.HyperlinkedModelSerializer):
     diagnosis = DiagnosisSerializer(many=True, read_only=True)
+    case_typeds = serializers.ReadOnlyField()
+    patient_typeds = serializers.ReadOnlyField()
+    status = serializers.ReadOnlyField()
 
     class Meta:
         model = CaseHistory
