@@ -4,7 +4,6 @@ from rest_framework.filters import OrderingFilter
 from .models import Forums, Discussion
 from .serializers import ForumSerializers, DiscussionSerializer
 from django_filters import rest_framework as filters
-# from helper.filters.access_filters import IsOwnerFilterBackend
 from security.permissions import IsOwerOrReadOnly
 
 

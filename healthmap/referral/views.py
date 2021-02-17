@@ -3,6 +3,7 @@ from rest_framework import permissions
 from .models import Referral
 from .serializers import ReferralSerializer
 from django_filters import rest_framework as filters
+from healthmap.medicalofficer.permissions import IsMOOrReadOnly
 
 
 # Filter Class for Referral
@@ -34,4 +35,4 @@ class ReferralViewSet(viewsets.ModelViewSet):
     serializer_class = ReferralSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = ReferFilter
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsMOOrReadOnly]

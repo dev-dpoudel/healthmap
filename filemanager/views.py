@@ -3,6 +3,7 @@ from rest_framework import permissions
 from django_filters import rest_framework as filters
 from .models import Files
 from filemanager.serializers import FileSerializers
+from security.permissions import IsOwerOrReadOnly
 
 
 # Filters specific to Case Records
@@ -59,7 +60,7 @@ class FilesViewSet(viewsets.ModelViewSet):
     serializer_class = FileSerializers
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = FileFilters
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsOwerOrReadOnly]
 
 
 # class FileDataViewSet(RetrieveViewsets):

@@ -4,6 +4,7 @@ from security import permissions
 from .models import MedicalOfficer
 from .serializers import MOSerializer
 from django_filters import rest_framework as filters
+from security.permissions import IsAdminOrReadOnly
 
 
 # Filters specific to staff Records
@@ -44,4 +45,4 @@ class MOViewSet(viewsets.ModelViewSet):
     filter_class = MOFilters
     ordering_fields = ['created_date', 'department', 'user']
     ordering = ['-created_date']
-    permission_classes = [permissions.IsAdminOrReadOnly]
+    permission_classes = [permissions.IsAdminOrReadOnly, IsAdminOrReadOnly]

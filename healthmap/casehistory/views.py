@@ -1,6 +1,7 @@
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework import permissions
+from healthmap.medicalofficer.permissions import IsMOOrReadOnly
 from .models import CaseHistory, Diagnosis, InvestigationHistory, Medication
 from .serializers import (CaseSerializer,
                           DiagnosisSerializer,
@@ -40,7 +41,7 @@ class CaseHistoryViewSet(viewsets.ModelViewSet):
     serializer_class = CaseSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = CaseFilters
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsMOOrReadOnly]
 
 
 # Filters specific to Diagnosis
@@ -71,7 +72,7 @@ class DiagnosisViewSet(viewsets.ModelViewSet):
     serializer_class = DiagnosisSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = DiagnosisFilters
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsMOOrReadOnly]
 
 
 # Filters specific to Diagnosis
@@ -98,7 +99,7 @@ class InvestigationHistoryViewSet(viewsets.ModelViewSet):
     serializer_class = InvestigationSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = InvestigationFilters
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsMOOrReadOnly]
 
 
 # Filters specific to Diagnosis
@@ -125,4 +126,4 @@ class MedicationViewSet(viewsets.ModelViewSet):
     serializer_class = MedictionSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = MedicationFilters
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsMOOrReadOnly]

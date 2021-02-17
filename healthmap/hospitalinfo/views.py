@@ -79,7 +79,7 @@ class RoomInfoFilters(filters.FilterSet):
     type = filters.CharFilter(
         field_name="room_type",
         lookup_expr="iexact",
-        hrlp_text="Room Type")
+        help_text="Room Type")
 
     class Meta:
         model = RoomInformation

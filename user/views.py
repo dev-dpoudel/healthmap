@@ -4,6 +4,8 @@ from rest_framework import permissions
 from .models import User
 from user.serializers import UserSerializer, GroupSerializer
 from django_filters import rest_framework as filters
+from security.filters import IsCurrentUserorStaff
+from security.permissions import IsAdminOrReadOnly
 
 
 class UserFilter(filters.FilterSet):
@@ -55,9 +57,9 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    filter_backends = [filters.DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend, IsCurrentUserorStaff]
     filter_class = UserFilter
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsAdminOrReadOnly]
 
 
 # Creation of Group is Bloacked as an security issue. Use of Django Admin
