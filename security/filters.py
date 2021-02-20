@@ -2,7 +2,7 @@ from rest_framework import filters
 
 
 # Class Extending Baseic FIlter Function to filter Owner
-class IsOwnerFilterBackend(filters.BaseFilterBackend):
+class CurrentUserFilter(filters.BaseFilterBackend):
     """
     Filter that only allows users to edit or see their own objects.
     """
@@ -12,7 +12,7 @@ class IsOwnerFilterBackend(filters.BaseFilterBackend):
 
 
 # Filter Viewsets based on the type of user
-class IsCurrentUserorStaff(filters.BaseFilterBackend):
+class CurrentUserorStaffFilter(filters.BaseFilterBackend):
     """
     Filter that only allows users to edit or see their own objects.
     """

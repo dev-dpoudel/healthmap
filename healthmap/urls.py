@@ -31,6 +31,7 @@ from xinfo import views as xSetting
 router = routers.DefaultRouter()
 router.register(r'users', userView.UserViewSet)
 router.register(r'groups', userView.GroupViewSet)
+router.register(r'menu', userView.MenuViewSet)
 router.register(r'forum', forumView.ForumViewSet)
 router.register(r'discussion', forumView.DiscussionViewSet)
 router.register(r'files', fileView.FilesViewSet)

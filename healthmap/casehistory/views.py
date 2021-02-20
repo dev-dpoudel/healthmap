@@ -12,7 +12,7 @@ from .serializers import (CaseSerializer,
 # Filters specific to Case Records
 class CaseFilters(filters.FilterSet):
     username = filters.CharFilter(
-        field_name="username",
+        field_name="patient_id",
         lookup_expr="iexact",
         help_text="Patient name")
     fromdate = filters.DateFilter(

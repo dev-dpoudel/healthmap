@@ -51,6 +51,27 @@ class IsAdminOrReadOnly(permissions.BasePermission):
 
 
 # Check if request user is admin or readonly
+class IsSuperUserOrReadOnly(permissions.BasePermission):
+
+    message = "Access violation. No user right."
+
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        else:
+            return request.user.is_superuser
+
+
+# Check if request user is admin or readonly
+class IsSuperUser(permissions.BasePermission):
+
+    message = "Access violation. No user right."
+
+    def has_permission(self, request, view):
+        return request.user.is_superuser
+
+
+# Check if request user is admin or readonly
 class IsBlockListed(permissions.BasePermission):
 
     message = 'You have been block listed.'

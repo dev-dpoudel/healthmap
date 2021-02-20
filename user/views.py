@@ -1,11 +1,13 @@
 from django.contrib.auth.models import Group
 from rest_framework import viewsets
 from rest_framework import permissions
-from .models import User
-from user.serializers import UserSerializer, GroupSerializer
+from .models import User, Scope
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from user.serializers import UserSerializer, GroupSerializer, ScopeSerializer
 from django_filters import rest_framework as filters
-from security.filters import IsCurrentUserorStaff
-from security.permissions import IsAdminOrReadOnly
+from security.filters import CurrentUserorStaffFilter
+from security.permissions import IsSuperUserOrReadOnly, IsSuperUser
 
 
 class UserFilter(filters.FilterSet):
@@ -57,12 +59,12 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    filter_backends = [filters.DjangoFilterBackend, IsCurrentUserorStaff]
+    filter_backends = [filters.DjangoFilterBackend, CurrentUserorStaffFilter]
     filter_class = UserFilter
-    permission_classes = [permissions.IsAuthenticated, IsAdminOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, IsSuperUserOrReadOnly]
 
 
-# Creation of Group is Bloacked as an security issue. Use of Django Admin
+# Creation of Group is Blocked as an security issue. Use of Django Admin
 # Interface is advised for such actions
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -76,3 +78,60 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
+
+
+# Filter Calss for Menu
+class MenuFilter(filters.FilterSet):
+    group = filters.CharFilter(
+        help_text="Search in reference to group",
+        field_name="groups")
+    menuset = filters.CharFilter(
+        help_text="Search in reference to menu sets",
+        field_name="menu_set")
+
+    class Meta:
+        model = Scope
+        fields = ['action', 'menu']
+
+
+# Creation of Menu is Blocked for Non Super Users as an security issue.
+# Admin Interface is advised for such actions
+class MenuViewSet(viewsets.ModelViewSet):
+    """
+    read:
+    Return information about the selected group menus.
+
+    list:
+    Return a list of all the existing group menus.
+
+    create:
+    Create a new user menu.
+
+    update:
+    Update information for the selected user menu.
+
+    partial_update:
+    Update the selected fields for given user menu.
+
+    delete:
+    Delete the given user menu.
+    """
+    queryset = Scope.objects.all().order_by('menu')
+    serializer_class = ScopeSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    filter_class = MenuFilter
+    permission_classes = [permissions.IsAuthenticated, IsSuperUser]
+
+    @action(detail=False,
+            methods=['get'],
+            permission_classes=[permissions.IsAuthenticated]
+            )
+    def getScope(self, request):
+        ''' Get Current user Menu List '''
+        groupid = request.user.groups.first()
+        if groupid:
+            userMenu = self.queryset.filter(groups=groupid.id)
+            serializer = self.get_serializer(userMenu, many=True)
+            return Response(serializer.data)
+
+        return Response(status="404", data="User Not Authorized for action")

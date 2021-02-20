@@ -72,3 +72,31 @@ class User (AbstractUser):
         ]
 
         unique_together = [('username')]
+
+
+class Scope (models.Model):
+    ''' Menu Set and Menu Related to the User Group
+        User Group is used for ease of management.
+    '''
+    menu_set = models.CharField(
+        max_length=15,
+        unique=True,
+        primary_key=True,
+        help_text='Menu Sets')
+    menu = models.CharField(
+        max_length=15,
+        null=True,
+        help_text='Menu')
+    action = models.CharField(
+        max_length=15,
+        null=True,
+        help_text='Action Supported')
+    groups = models.ManyToManyField('auth.Group')
+
+    @property
+    def menu_type(self):
+        "Returns the menu's action."
+        return "%s_%s" % (self.menu, self.action)
+
+    class Meta:
+        unique_together = [('menu', 'action')]
